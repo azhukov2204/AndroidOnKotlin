@@ -3,8 +3,8 @@ package ru.androidlearning.moviesearch.model
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class MoveDetails(
-    val move: Move = getDefaultMove(),
+data class MovieDetails(
+    val movie: Movie = getDefaultMovie(),
     val genre: String? = "Триллер/криминал",
     val durationInMinutes: Int? = 154,
     val description: String? = "Двое бандитов Винсент Вега и Джулс Винфилд проводят время в философских беседах " +
@@ -14,12 +14,18 @@ data class MoveDetails(
             " боксере, нанятом Уоллесом, чтобы сдать бой, но обманувшим его."
 ) {
     companion object {
-        private fun getDefaultMove(): Move =
-            Move("Криминальное чтиво", getDateFromString("1995/12/27"), 80f, null)
+        private fun getDefaultMovie(): Movie =
+            Movie("Криминальное чтиво", getDateFromString("1995/12/27"), 80f, null)
 
         private fun getDateFromString(dateStr: String): Date? {
             val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
             return sdf.parse(dateStr)
         }
+
     }
 }
+
+
+
+
+

@@ -1,6 +1,6 @@
 package ru.androidlearning.moviesearch.model
 
 interface MoveRepository {
-    fun getMoveDetailsFromServer(): MoveDetails
-    fun getMoveDetailsFromLocalStorage(): MoveDetails
+    fun getMovieDetailsFromServer(): MovieDetails
+    fun getMovieDetailsFromLocalStorage(): MovieDetails
 }

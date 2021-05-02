@@ -3,7 +3,7 @@ package ru.androidlearning.moviesearch.model
 import android.net.Uri
 import java.util.*
 
-data class Move(
+data class Movie(
     //val moveId: Int,  //вероятно в будущем это свойство пригодится
     val name: String,
     val releaseDate: Date?,

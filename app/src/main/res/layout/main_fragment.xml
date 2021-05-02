@@ -5,90 +5,98 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/textCommonStyle"
     tools:context=".view.MainFragment">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/moveName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/movePoster"
-            android:layout_width="168dp"
-            android:layout_height="236dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:src="@drawable/pulp_fiction"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/moveName" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/moveGenre"
-            android:layout_width="0dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/movePoster"
-            app:layout_constraintTop_toTopOf="@+id/movePoster" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/moveRating"
-            android:layout_width="0dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/movePoster"
-            app:layout_constraintTop_toBottomOf="@+id/moveGenre" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/moveDuration"
-            android:layout_width="0dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/movePoster"
-            app:layout_constraintTop_toBottomOf="@+id/moveRating" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/moveReleaseDate"
-            android:layout_width="0dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/movePoster"
-            app:layout_constraintTop_toBottomOf="@+id/moveDuration" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/moveDescription"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movePoster" />
+            android:scrollbars="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/moveName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:textSize="35sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/movePoster"
+                android:layout_width="168dp"
+                android:layout_height="236dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/pulp_fiction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/moveName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/moveGenre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintTop_toTopOf="@+id/movePoster" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/moveRating"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintTop_toBottomOf="@+id/moveGenre" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/moveDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintTop_toBottomOf="@+id/moveRating" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/moveReleaseDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintTop_toBottomOf="@+id/moveDuration" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/moveDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movePoster" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <FrameLayout
         android:id="@+id/loadingLayout"

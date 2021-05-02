@@ -1,11 +1,11 @@
 package ru.androidlearning.moviesearch.model
 
 class MoveRepositoryImpl: MoveRepository {
-    override fun getMoveDetailsFromServer(): MoveDetails {
-        return MoveDetails()
+    override fun getMovieDetailsFromServer(): MovieDetails {
+        return MovieDetails()
     }
 
-    override fun getMoveDetailsFromLocalStorage(): MoveDetails {
-        return MoveDetails()
+    override fun getMovieDetailsFromLocalStorage(): MovieDetails {
+        return MovieDetails()
     }
 }

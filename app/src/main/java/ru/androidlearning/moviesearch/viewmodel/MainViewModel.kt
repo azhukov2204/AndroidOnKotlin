@@ -11,13 +11,16 @@ class MainViewModel(
     private val moveRepository: MoveRepository = MoveRepositoryImpl()
 ) : ViewModel() {
 
-    fun getMoveDetailsFromLocalSource() {
+    fun getMovieDetailsFromLocalSource() {
         moveDetailsLiveData.value = AppState.Loading
 
         Thread {
             sleep(1000)
-            moveDetailsLiveData.postValue(AppState.Success(moveRepository.getMoveDetailsFromLocalStorage()))
+            moveDetailsLiveData.postValue(AppState.Success(moveRepository.getMovieDetailsFromLocalStorage()))
+            //moveDetailsLiveData.postValue(AppState.Error(Throwable("Error")))
         }.start()
     }
+
+    fun getMovieDetailsLiveData() = moveDetailsLiveData
 
 }
