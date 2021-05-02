@@ -16,8 +16,8 @@ class MovieDetailViewModel(
 
         Thread {
             sleep(1000)
-            //moveDetailsLiveData.postValue(AppState.Success(moveRepository.getMovieDetailsFromLocalStorage()))
-            moveDetailsLiveData.postValue(AppState.Error(Throwable("Error of detail load")))
+            moveDetailsLiveData.postValue(AppState.Success(moveRepository.getMovieDetailsFromLocalStorage()))
+            //moveDetailsLiveData.postValue(AppState.Error(Throwable("Error of detail load")))
         }.start()
     }
 

@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.androidlearning.moviesearch.R
-import ru.androidlearning.moviesearch.databinding.MainFragmentBinding
+import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.MovieDetails
 import ru.androidlearning.moviesearch.viewmodel.AppState
 import ru.androidlearning.moviesearch.viewmodel.MovieDetailViewModel
@@ -16,8 +16,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MovieDetailFragment : Fragment() {
-    private var _binding: MainFragmentBinding? = null
-    private val mainFragmentBinding get() = _binding!!
+    private var _binding: MovieDetailFragmentBinding? = null
+    private val movieDetailFragmentBinding get() = _binding!!
 
     companion object {
         fun newInstance() = MovieDetailFragment()
@@ -29,8 +29,8 @@ class MovieDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MainFragmentBinding.inflate(inflater, container, false)
-        return mainFragmentBinding.root
+        _binding = MovieDetailFragmentBinding.inflate(inflater, container, false)
+        return movieDetailFragmentBinding.root
     }
 
     override fun onDestroyView() {
@@ -55,7 +55,7 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun onLoadingAction() {
-        mainFragmentBinding.loadingLayout.visibility = View.VISIBLE
+        movieDetailFragmentBinding.loadingLayout.visibility = View.VISIBLE
     }
 
     private fun onErrorAction(message: String?) {
@@ -75,30 +75,30 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun onSuccessAction(movieDetails: MovieDetails) {
-        mainFragmentBinding.loadingLayout.visibility = View.GONE
+        movieDetailFragmentBinding.loadingLayout.visibility = View.GONE
         setData(movieDetails)
     }
 
 
     private fun setData(movieDetails: MovieDetails) {
-        mainFragmentBinding.movieName.text = movieDetails.movie.name
+        movieDetailFragmentBinding.movieName.text = movieDetails.movie.name
 
-        mainFragmentBinding.movieGenre.text =
+        movieDetailFragmentBinding.movieGenre.text =
             String.format(Locale.getDefault(), getString(R.string.genreWord) + movieDetails.genre)
 
-        mainFragmentBinding.movieDuration.text = String.format(
+        movieDetailFragmentBinding.movieDuration.text = String.format(
             Locale.getDefault(),
             getString(R.string.durationWord) + movieDetails.durationInMinutes.toString() + " " + getString(
                 R.string.minutesWord
             )
         )
 
-        mainFragmentBinding.movieRating.text = String.format(
+        movieDetailFragmentBinding.movieRating.text = String.format(
             Locale.getDefault(),
             getString(R.string.ratingWord) + movieDetails.movie.rating.toString()
         )
 
-        mainFragmentBinding.movieReleaseDate.text =
+        movieDetailFragmentBinding.movieReleaseDate.text =
             String.format(
                 Locale.getDefault(),
                 getString(R.string.releaseDateWord) + movieDetails.movie.releaseDate?.let {
@@ -107,7 +107,7 @@ class MovieDetailFragment : Fragment() {
                     )
                 })
 
-        mainFragmentBinding.movieDescription.text = movieDetails.description
+        movieDetailFragmentBinding.movieDescription.text = movieDetails.description
 
     }
 
