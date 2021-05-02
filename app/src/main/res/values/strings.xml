@@ -2,7 +2,7 @@
     <string name="app_name">Movie Search</string>
     <string name="minutesWord">minutes</string>
     <string name="attentionWord">Attention</string>
-    <string name="errorLoadingMoveDetailsMessage">Error loading movie details</string>
+    <string name="errorLoadingMovieDetailsMessage">Error loading movie details</string>
     <string name="tryToReloadButtonText">Try to reload</string>
     <string name="resurtnToPrevScreenButtonText">\"Return to the previous screen \"</string>
     <string name="genreWord">\Genre: </string>

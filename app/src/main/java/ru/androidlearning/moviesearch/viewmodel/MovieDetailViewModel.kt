@@ -6,7 +6,7 @@ import ru.androidlearning.moviesearch.model.MoveRepository
 import ru.androidlearning.moviesearch.model.MoveRepositoryImpl
 import java.lang.Thread.sleep
 
-class MainViewModel(
+class MovieDetailViewModel(
     private val moveDetailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
     private val moveRepository: MoveRepository = MoveRepositoryImpl()
 ) : ViewModel() {
@@ -16,8 +16,8 @@ class MainViewModel(
 
         Thread {
             sleep(1000)
-            moveDetailsLiveData.postValue(AppState.Success(moveRepository.getMovieDetailsFromLocalStorage()))
-            //moveDetailsLiveData.postValue(AppState.Error(Throwable("Error")))
+            //moveDetailsLiveData.postValue(AppState.Success(moveRepository.getMovieDetailsFromLocalStorage()))
+            moveDetailsLiveData.postValue(AppState.Error(Throwable("Error of detail load")))
         }.start()
     }
 
