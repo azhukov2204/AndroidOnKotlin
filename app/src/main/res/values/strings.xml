@@ -9,6 +9,6 @@
     <string name="durationWord">"Duration: "</string>
     <string name="ratingWord">"Rating: "</string>
     <string name="releaseDateWord">"Release date: "</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">This is where the movie search functionality will be implemented. </string>
+    <string name="openMovieDetailsButtonText">Open movie details</string>
 </resources>

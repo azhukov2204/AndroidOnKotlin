@@ -1,6 +1,7 @@
 package ru.androidlearning.moviesearch.view
 
 import android.app.AlertDialog
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.androidlearning.moviesearch.R
+import ru.androidlearning.moviesearch.databinding.AppBarMainBinding
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.MovieDetails
 import ru.androidlearning.moviesearch.viewmodel.AppState
@@ -18,6 +20,7 @@ import java.util.*
 class MovieDetailFragment : Fragment() {
     private var _binding: MovieDetailFragmentBinding? = null
     private val movieDetailFragmentBinding get() = _binding!!
+    private lateinit var mainActivity: MainActivity
 
     companion object {
         fun newInstance() = MovieDetailFragment()
@@ -25,11 +28,19 @@ class MovieDetailFragment : Fragment() {
 
     private lateinit var viewModel: MovieDetailViewModel
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = MovieDetailFragmentBinding.inflate(inflater, container, false)
+
+        mainActivity.showHomeButton()
+
         return movieDetailFragmentBinding.root
     }
 
@@ -65,8 +76,8 @@ class MovieDetailFragment : Fragment() {
             //.setMessage(getString(R.string.errorLoadingMovieDetailsMessage))
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { dialog, which -> run { viewModel.getMovieDetailsFromLocalSource() } }
-            .setNegativeButton(getString(R.string.resurtnToPrevScreenButtonText)) { dialog, which ->
+            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { viewModel.getMovieDetailsFromLocalSource() } }
+            .setNegativeButton(getString(R.string.resurtnToPrevScreenButtonText)) { _, _ ->
                 run {
                     //fragmentManager?.popBackStack()
                 }
