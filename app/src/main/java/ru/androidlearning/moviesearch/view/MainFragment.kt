@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.ui.main
+package ru.androidlearning.moviesearch.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle

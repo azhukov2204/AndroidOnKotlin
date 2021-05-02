@@ -1,8 +1,8 @@
-package ru.androidlearning.moviesearch
+package ru.androidlearning.moviesearch.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.androidlearning.moviesearch.ui.main.MainFragment
+import ru.androidlearning.moviesearch.R
 
 class MainActivity : AppCompatActivity() {
 

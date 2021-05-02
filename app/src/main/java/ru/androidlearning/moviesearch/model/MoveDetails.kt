@@ -23,11 +23,3 @@ data class MoveDetails(
         }
     }
 }
-
-
-
-
-
-
-
-
