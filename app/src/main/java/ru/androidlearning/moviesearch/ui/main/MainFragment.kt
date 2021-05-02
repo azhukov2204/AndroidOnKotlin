@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.androidlearning.moviesearch.R
+import ru.androidlearning.moviesearch.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
