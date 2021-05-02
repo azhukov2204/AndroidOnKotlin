@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.androidlearning.moviesearch.R
-import ru.androidlearning.moviesearch.databinding.AppBarMainBinding
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.MovieDetails
 import ru.androidlearning.moviesearch.viewmodel.AppState
@@ -38,9 +37,7 @@ class MovieDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = MovieDetailFragmentBinding.inflate(inflater, container, false)
-
         mainActivity.showHomeButton()
-
         return movieDetailFragmentBinding.root
     }
 
@@ -54,7 +51,6 @@ class MovieDetailFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MovieDetailViewModel::class.java)
         viewModel.getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getMovieDetailsFromLocalSource()
-
     }
 
     private fun renderData(appState: AppState) {
@@ -72,14 +68,14 @@ class MovieDetailFragment : Fragment() {
     private fun onErrorAction(message: String?) {
         val dialogBuilder = AlertDialog.Builder(context)
         dialogBuilder
-            .setTitle(getString(R.string.attentionWord))
+            .setTitle(getString(R.string.errorWord))
             //.setMessage(getString(R.string.errorLoadingMovieDetailsMessage))
             .setMessage(message)
             .setCancelable(false)
             .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { viewModel.getMovieDetailsFromLocalSource() } }
             .setNegativeButton(getString(R.string.resurtnToPrevScreenButtonText)) { _, _ ->
                 run {
-                    //fragmentManager?.popBackStack()
+                    fragmentManager?.popBackStack()
                 }
             }
             .create().show()

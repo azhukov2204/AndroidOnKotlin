@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Movie Search</string>
     <string name="minutesWord">minutes</string>
-    <string name="attentionWord">Attention</string>
+    <string name="errorWord">Error</string>
     <string name="errorLoadingMovieDetailsMessage">Error loading movie details</string>
     <string name="tryToReloadButtonText">Try to reload</string>
-    <string name="resurtnToPrevScreenButtonText">\"Return to the previous screen \"</string>
+    <string name="resurtnToPrevScreenButtonText">\Return to the previous screen</string>
     <string name="genreWord">\Genre: </string>
     <string name="durationWord">"Duration: "</string>
     <string name="ratingWord">"Rating: "</string>
