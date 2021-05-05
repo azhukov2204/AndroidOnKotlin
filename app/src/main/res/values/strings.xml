@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Movie Search</string>
+    <string name="minutesWord">minutes</string>
+    <string name="errorWord">Error</string>
+    <string name="errorLoadingMovieDetailsMessage">Error loading movie details</string>
+    <string name="tryToReloadButtonText">Try to reload</string>
+    <string name="resurtnToPrevScreenButtonText">\Return to the previous screen</string>
+    <string name="genreWord">\Genre: </string>
+    <string name="durationWord">"Duration: "</string>
+    <string name="ratingWord">"Rating: "</string>
+    <string name="releaseDateWord">"Release date: "</string>
+    <string name="hello_blank_fragment">This is where the movie search functionality will be implemented. </string>
+    <string name="openMovieDetailsButtonText">Open movie details</string>
 </resources>
