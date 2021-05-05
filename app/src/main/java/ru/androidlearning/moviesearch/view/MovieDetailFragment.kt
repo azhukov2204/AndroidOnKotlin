@@ -69,7 +69,6 @@ class MovieDetailFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(context)
         dialogBuilder
             .setTitle(getString(R.string.errorWord))
-            //.setMessage(getString(R.string.errorLoadingMovieDetailsMessage))
             .setMessage(message)
             .setCancelable(false)
             .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { viewModel.getMovieDetailsFromLocalSource() } }

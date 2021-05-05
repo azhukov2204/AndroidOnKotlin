@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         initToolBar()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                //.replace(R.id.container, MovieDetailFragment.newInstance())
                 .replace(R.id.container, MovieSearchFragment.newInstance())
                 .commitNow()
         }
