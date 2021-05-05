@@ -1,6 +1,6 @@
 package ru.androidlearning.moviesearch.model
 
-class MoveRepositoryImpl: MoveRepository {
+class MovieRepositoryImpl: MovieRepository {
     override fun getMovieDetailsFromServer(): MovieDetails {
         return MovieDetails()
     }

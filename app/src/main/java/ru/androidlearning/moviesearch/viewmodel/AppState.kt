@@ -6,5 +6,4 @@ sealed class AppState {
     data class Success(val movieDetails: MovieDetails): AppState()
     data class Error(val error: Throwable): AppState()
     object Loading: AppState()
-
 }

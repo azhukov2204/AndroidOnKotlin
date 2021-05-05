@@ -86,25 +86,20 @@ class MovieDetailFragment : Fragment() {
         setData(movieDetails)
     }
 
-
     private fun setData(movieDetails: MovieDetails) {
         movieDetailFragmentBinding.movieName.text = movieDetails.movie.name
-
         movieDetailFragmentBinding.movieGenre.text =
             String.format(Locale.getDefault(), getString(R.string.genreWord) + movieDetails.genre)
-
         movieDetailFragmentBinding.movieDuration.text = String.format(
             Locale.getDefault(),
             getString(R.string.durationWord) + movieDetails.durationInMinutes.toString() + " " + getString(
                 R.string.minutesWord
             )
         )
-
         movieDetailFragmentBinding.movieRating.text = String.format(
             Locale.getDefault(),
             getString(R.string.ratingWord) + movieDetails.movie.rating.toString()
         )
-
         movieDetailFragmentBinding.movieReleaseDate.text =
             String.format(
                 Locale.getDefault(),
@@ -113,15 +108,11 @@ class MovieDetailFragment : Fragment() {
                         it
                     )
                 })
-
         movieDetailFragmentBinding.movieDescription.text = movieDetails.description
-
     }
-
 
     private fun getStringFromDate(date: Date): String {
         val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
         return sdf.format(date)
     }
-
 }

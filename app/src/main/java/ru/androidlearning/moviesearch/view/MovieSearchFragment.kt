@@ -33,10 +33,8 @@ class MovieSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = MovieSearchFragmentBinding.inflate(inflater, container, false)
-
         mainActivity.hideHomeButton()
         initView()
-
         return movieSearchFragmentBinding.root
     }
 

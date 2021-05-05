@@ -8,7 +8,6 @@ import ru.androidlearning.moviesearch.databinding.MainActivityBinding
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.databinding.MovieSearchFragmentBinding
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var mainActivityBinding: MainActivityBinding
     private lateinit var appBarMainBinding: AppBarMainBinding
@@ -23,9 +22,7 @@ class MainActivity : AppCompatActivity() {
         movieSearchFragmentBinding = MovieSearchFragmentBinding.inflate(layoutInflater)
 
         setContentView(appBarMainBinding.root)
-
         initToolBar()
-
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 //.replace(R.id.container, MovieDetailFragment.newInstance())
@@ -52,6 +49,4 @@ class MainActivity : AppCompatActivity() {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
-
 }
-

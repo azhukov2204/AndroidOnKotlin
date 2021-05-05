@@ -16,16 +16,9 @@ data class MovieDetails(
     companion object {
         private fun getDefaultMovie(): Movie =
             Movie("Криминальное чтиво", getDateFromString("1995/12/27"), 80f, null)
-
         private fun getDateFromString(dateStr: String): Date? {
             val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
             return sdf.parse(dateStr)
         }
-
     }
 }
-
-
-
-
-
