@@ -90,5 +90,5 @@ fun getMovies(): List<Movie> = listOf(
     Movie(
         "Film3", getDateFromString("2008/01/01"), 90f, null, "drama", 80,
         "Film3 description", "top200"
-    ),
+    )
 )
