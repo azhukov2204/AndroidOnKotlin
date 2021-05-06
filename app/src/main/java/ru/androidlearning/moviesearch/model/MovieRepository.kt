@@ -1,6 +1,6 @@
 package ru.androidlearning.moviesearch.model
 
 interface MovieRepository {
-    fun getMovieDetailsFromServer(): MovieDetails
-    fun getMovieDetailsFromLocalStorage(): MovieDetails
+    fun getMoviesFromServer(): List<Movie>
+    fun getMoviesFromLocalStorage(): List<Movie>
 }

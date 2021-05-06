@@ -10,22 +10,22 @@ import java.util.*
 const val sleepTimeInMills: Long = 1000
 
 class MovieDetailViewModel(
-    private val moveDetailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
+    private val moviesLiveData: MutableLiveData<AppState> = MutableLiveData(),
     private val movieRepository: MovieRepository = MovieRepositoryImpl()
 ) : ViewModel() {
 
     private val random = Random()
 
-    fun getMovieDetailsFromLocalSource() {
-        moveDetailsLiveData.value = AppState.Loading
+    fun getMoviesFromLocalSource() {
+        moviesLiveData.value = AppState.Loading
         Thread {
             sleep(sleepTimeInMills)
             val appState =
-                if (random.nextInt(2) == 0) AppState.Success(movieRepository.getMovieDetailsFromLocalStorage())
+                if (random.nextInt(2) == 0) AppState.Success(movieRepository.getMoviesFromLocalStorage())
                 else AppState.Error(Throwable("Error of detail load"))
-            moveDetailsLiveData.postValue(appState)
+            moviesLiveData.postValue(appState)
         }.start()
     }
 
-    fun getMovieDetailsLiveData() = moveDetailsLiveData
+    fun getMovieDetailsLiveData() = moviesLiveData
 }

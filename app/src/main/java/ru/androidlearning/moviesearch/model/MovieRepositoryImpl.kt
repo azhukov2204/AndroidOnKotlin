@@ -1,11 +1,11 @@
 package ru.androidlearning.moviesearch.model
 
-class MovieRepositoryImpl: MovieRepository {
-    override fun getMovieDetailsFromServer(): MovieDetails {
-        return MovieDetails()
+class MovieRepositoryImpl : MovieRepository {
+    override fun getMoviesFromServer(): List<Movie> {
+        return getMovies()
     }
 
-    override fun getMovieDetailsFromLocalStorage(): MovieDetails {
-        return MovieDetails()
+    override fun getMoviesFromLocalStorage(): List<Movie> {
+        return getMovies()
     }
 }

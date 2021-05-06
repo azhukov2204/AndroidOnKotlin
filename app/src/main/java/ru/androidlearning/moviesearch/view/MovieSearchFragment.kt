@@ -11,7 +11,6 @@ import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.databinding.MovieSearchFragmentBinding
 
-
 class MovieSearchFragment : Fragment() {
     private var _binding: MovieSearchFragmentBinding? = null
     private val movieSearchFragmentBinding get() = _binding!!

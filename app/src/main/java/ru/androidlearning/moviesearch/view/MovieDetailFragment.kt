@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
-import ru.androidlearning.moviesearch.model.MovieDetails
+import ru.androidlearning.moviesearch.model.Movie
 import ru.androidlearning.moviesearch.viewmodel.AppState
 import ru.androidlearning.moviesearch.viewmodel.MovieDetailViewModel
 import java.text.SimpleDateFormat
@@ -50,12 +50,12 @@ class MovieDetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MovieDetailViewModel::class.java)
         viewModel.getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.getMovieDetailsFromLocalSource()
+        viewModel.getMoviesFromLocalSource()
     }
 
     private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.Success -> onSuccessAction(appState.movieDetails)
+            is AppState.Success -> onSuccessAction(appState.movie)
             is AppState.Error -> onErrorAction(appState.error.message)
             is AppState.Loading -> onLoadingAction()
         }
@@ -71,7 +71,7 @@ class MovieDetailFragment : Fragment() {
             .setTitle(getString(R.string.errorWord))
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { viewModel.getMovieDetailsFromLocalSource() } }
+            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { viewModel.getMoviesFromLocalSource() } }
             .setNegativeButton(getString(R.string.resurtnToPrevScreenButtonText)) { _, _ ->
                 run {
                     fragmentManager?.popBackStack()
@@ -80,34 +80,34 @@ class MovieDetailFragment : Fragment() {
             .create().show()
     }
 
-    private fun onSuccessAction(movieDetails: MovieDetails) {
+    private fun onSuccessAction(movie: Movie) {
         movieDetailFragmentBinding.loadingLayout.visibility = View.GONE
-        setData(movieDetails)
+        setData(movie)
     }
 
-    private fun setData(movieDetails: MovieDetails) {
-        movieDetailFragmentBinding.movieName.text = movieDetails.movie.name
+    private fun setData(movie: Movie) {
+        movieDetailFragmentBinding.movieName.text = movie.name
         movieDetailFragmentBinding.movieGenre.text =
-            String.format(Locale.getDefault(), getString(R.string.genreWord) + movieDetails.genre)
+            String.format(Locale.getDefault(), getString(R.string.genreWord) + movie.genre)
         movieDetailFragmentBinding.movieDuration.text = String.format(
             Locale.getDefault(),
-            getString(R.string.durationWord) + movieDetails.durationInMinutes.toString() + " " + getString(
+            getString(R.string.durationWord) + movie.durationInMinutes.toString() + " " + getString(
                 R.string.minutesWord
             )
         )
         movieDetailFragmentBinding.movieRating.text = String.format(
             Locale.getDefault(),
-            getString(R.string.ratingWord) + movieDetails.movie.rating.toString()
+            getString(R.string.ratingWord) + movie.rating.toString()
         )
         movieDetailFragmentBinding.movieReleaseDate.text =
             String.format(
                 Locale.getDefault(),
-                getString(R.string.releaseDateWord) + movieDetails.movie.releaseDate?.let {
+                getString(R.string.releaseDateWord) + movie.releaseDate?.let {
                     getStringFromDate(
                         it
                     )
                 })
-        movieDetailFragmentBinding.movieDescription.text = movieDetails.description
+        movieDetailFragmentBinding.movieDescription.text = movie.description
     }
 
     private fun getStringFromDate(date: Date): String {
