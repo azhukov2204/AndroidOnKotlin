@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movieListItem"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:theme="@style/textCommonStyle">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/movePoster"
+            android:layout_width="185dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/pulp_fiction"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/movie_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:text="movie_name"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/movePoster"
+            app:layout_constraintTop_toBottomOf="@+id/movePoster" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/movie_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:text="movie_genre"
+            app:layout_constraintStart_toStartOf="@+id/movePoster"
+            app:layout_constraintTop_toBottomOf="@+id/movie_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/movie_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/gray"
+            android:padding="4dp"
+            android:text="65%"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/movePoster" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
