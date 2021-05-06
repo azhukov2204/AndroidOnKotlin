@@ -52,12 +52,12 @@ class MovieSearchFragment : Fragment() {
     }
 
     private fun initView() {
-        movieSearchFragmentBinding.openMovieDetailsButton.setOnClickListener {
+        /*movieSearchFragmentBinding.openMovieDetailsButton.setOnClickListener {
             fragmentManager
                 ?.beginTransaction()
                 ?.addToBackStack(null)
                 ?.replace(R.id.container, MovieDetailFragment.newInstance())
                 ?.commit()
-        }
+        }*/
     }
 }

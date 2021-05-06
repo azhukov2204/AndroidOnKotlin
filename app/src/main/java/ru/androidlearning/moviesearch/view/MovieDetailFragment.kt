@@ -55,7 +55,7 @@ class MovieDetailFragment : Fragment() {
 
     private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.Success -> onSuccessAction(appState.movie)
+            //is AppState.Success -> onSuccessAction(appState.movie)
             is AppState.Error -> onErrorAction(appState.error.message)
             is AppState.Loading -> onLoadingAction()
         }
