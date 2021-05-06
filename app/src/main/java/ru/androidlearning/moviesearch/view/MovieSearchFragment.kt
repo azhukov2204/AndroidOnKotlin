@@ -9,17 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import ru.androidlearning.moviesearch.R
-import ru.androidlearning.moviesearch.databinding.MovieSearchFragmentBinding
+import ru.androidlearning.moviesearch.databinding.MoviesSearchFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
 import ru.androidlearning.moviesearch.viewmodel.AppState
 import ru.androidlearning.moviesearch.viewmodel.MovieSearchViewModel
 
 class MovieSearchFragment : Fragment() {
-    private var _binding: MovieSearchFragmentBinding? = null
+    private var _binding: MoviesSearchFragmentBinding? = null
     private val movieSearchFragmentBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
-    private val movieSearchFragmentAdapter = MovieSearchFragmentAdapter()
-    private lateinit var movieSearchViewModel: MovieSearchViewModel
+    private val moviesSearchFragmentAdapter = MoviesSearchFragmentAdapter()
+    private lateinit var moviesSearchViewModel: MovieSearchViewModel
 
     companion object {
         @JvmStatic
@@ -45,18 +45,17 @@ class MovieSearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MovieSearchFragmentBinding.inflate(inflater, container, false)
+        _binding = MoviesSearchFragmentBinding.inflate(inflater, container, false)
         mainActivity.hideHomeButton()
-        initView()
         return movieSearchFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        movieSearchFragmentBinding.movieSearchRecyclerView.adapter = movieSearchFragmentAdapter
-        movieSearchViewModel = ViewModelProvider(this).get(MovieSearchViewModel::class.java)
-        movieSearchViewModel.getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        movieSearchViewModel.getMoviesFromLocalSource()
+        movieSearchFragmentBinding.movieSearchRecyclerView.adapter = moviesSearchFragmentAdapter
+        moviesSearchViewModel = ViewModelProvider(this).get(MovieSearchViewModel::class.java)
+        moviesSearchViewModel.getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
+        moviesSearchViewModel.getMoviesFromLocalSource()
     }
 
     private fun renderData(appState: AppState?) {
@@ -65,7 +64,6 @@ class MovieSearchFragment : Fragment() {
             is AppState.Error -> onErrorAction(appState.error.message)
             is AppState.Loading -> onLoadingAction()
         }
-
     }
 
     private fun onLoadingAction() {
@@ -78,7 +76,7 @@ class MovieSearchFragment : Fragment() {
             .setTitle(getString(R.string.errorWord))
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { movieSearchViewModel.getMoviesFromLocalSource() } }
+            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { moviesSearchViewModel.getMoviesFromLocalSource() } }
             .setNegativeButton(getString(R.string.resurtnToPrevScreenButtonText)) { _, _ ->
                 run {
                     fragmentManager?.popBackStack()
@@ -89,22 +87,12 @@ class MovieSearchFragment : Fragment() {
 
     private fun onSuccessAction(movies: List<Movie>) {
         movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.visibility = View.GONE
-        movieSearchFragmentAdapter.setMoviesList(movies)
+        moviesSearchFragmentAdapter.setMoviesList(movies)
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun initView() {
-        /*movieSearchFragmentBinding.openMovieDetailsButton.setOnClickListener {
-            fragmentManager
-                ?.beginTransaction()
-                ?.addToBackStack(null)
-                ?.replace(R.id.container, MovieDetailFragment.newInstance())
-                ?.commit()
-        }*/
     }
 }

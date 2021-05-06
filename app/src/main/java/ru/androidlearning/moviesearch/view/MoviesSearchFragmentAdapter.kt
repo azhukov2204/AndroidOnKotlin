@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.model.Movie
 
-class MovieSearchFragmentAdapter :
-    RecyclerView.Adapter<MovieSearchFragmentAdapter.MovieSearchFragmentHolder>() {
+class MoviesSearchFragmentAdapter :
+    RecyclerView.Adapter<MoviesSearchFragmentAdapter.MovieSearchFragmentHolder>() {
 
     private var moviesList = listOf<Movie>()
 
@@ -21,7 +21,7 @@ class MovieSearchFragmentAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieSearchFragmentHolder {
         return MovieSearchFragmentHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.movie_list_item, parent, false)
+                .inflate(R.layout.movie_item, parent, false)
         )
     }
 
@@ -30,7 +30,6 @@ class MovieSearchFragmentAdapter :
     }
 
     override fun getItemCount(): Int = moviesList.size
-
 
     inner class MovieSearchFragmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(movie: Movie) {
