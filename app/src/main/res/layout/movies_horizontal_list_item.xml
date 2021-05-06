@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/moviesHorizontalListItem"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/movieCategoryTextView"
         style="@style/textCommonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test movieCategory"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:textSize="40sp"
         android:textStyle="bold" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movieHorizontalRecyclerView"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/movieHorizontalRecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:scrollbars="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/movie_item" />
 </LinearLayout>

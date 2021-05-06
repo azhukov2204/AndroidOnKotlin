@@ -9,33 +9,39 @@ import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.model.Movie
 
 class MoviesSearchFragmentAdapter :
-    RecyclerView.Adapter<MoviesSearchFragmentAdapter.MovieSearchFragmentHolder>() {
-
+    RecyclerView.Adapter<MoviesSearchFragmentAdapter.MoviesSearchFragmentHolder>() {
     private var moviesList = listOf<Movie>()
+    private val movieCategoriesList: MutableList<String> = arrayListOf()
 
     fun setMoviesList(moviesList: List<Movie>) {
         this.moviesList = moviesList
+        val categoriesSet: MutableSet<String> = hashSetOf()
+        for (movie in moviesList) {
+            categoriesSet.add(movie.category)
+        }
+        this.movieCategoriesList.addAll(categoriesSet)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieSearchFragmentHolder {
-        return MovieSearchFragmentHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesSearchFragmentHolder {
+        return MoviesSearchFragmentHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.movie_item, parent, false)
+                .inflate(R.layout.movies_horizontal_list_item, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: MovieSearchFragmentHolder, position: Int) {
-        holder.bind(moviesList[position])
+    override fun onBindViewHolder(holder: MoviesSearchFragmentHolder, position: Int) {
+        holder.bind(movieCategoriesList[position],  moviesList)
     }
 
-    override fun getItemCount(): Int = moviesList.size
+    override fun getItemCount(): Int = movieCategoriesList.size
 
-    inner class MovieSearchFragmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(movie: Movie) {
-            itemView.findViewById<TextView>(R.id.movie_name).text = movie.name
-            itemView.findViewById<TextView>(R.id.movie_genre).text = movie.genre
-            itemView.findViewById<TextView>(R.id.movie_rating).text = movie.rating.toString()
+    inner class MoviesSearchFragmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(moveCategory: String, moviesList: List<Movie>) {
+            itemView.findViewById<TextView>(R.id.movieCategoryTextView).text = moveCategory
+            val moviesListHorizontalListAdapter = MoviesHorizontalListAdapter()
+            itemView.findViewById<RecyclerView>(R.id.movieHorizontalRecyclerView).adapter=moviesListHorizontalListAdapter
+            moviesListHorizontalListAdapter.setData(moviesList, moveCategory)
         }
     }
 }
