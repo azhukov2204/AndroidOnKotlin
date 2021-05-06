@@ -12,7 +12,7 @@ import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
 import ru.androidlearning.moviesearch.viewmodel.AppState
-import ru.androidlearning.moviesearch.viewmodel.MovieDetailViewModel
+import ru.androidlearning.moviesearch.viewmodel.MovieSearchViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +25,7 @@ class MovieDetailFragment : Fragment() {
         fun newInstance() = MovieDetailFragment()
     }
 
-    private lateinit var viewModel: MovieDetailViewModel
+    private lateinit var viewModel: MovieSearchViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,7 +48,7 @@ class MovieDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MovieDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MovieSearchViewModel::class.java)
         viewModel.getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getMoviesFromLocalSource()
     }

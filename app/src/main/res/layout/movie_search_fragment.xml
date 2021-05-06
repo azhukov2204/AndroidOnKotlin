@@ -11,10 +11,13 @@
         android:id="@+id/movie_search_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="vertical"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/movie_list_item"/>
 
     <FrameLayout
+        android:id="@+id/movieSearchFragmentLoadingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"

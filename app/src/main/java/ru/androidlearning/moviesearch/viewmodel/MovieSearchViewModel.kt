@@ -9,7 +9,7 @@ import java.util.*
 
 const val sleepTimeInMills: Long = 1000
 
-class MovieDetailViewModel(
+class MovieSearchViewModel(
     private val moviesLiveData: MutableLiveData<AppState> = MutableLiveData(),
     private val movieRepository: MovieRepository = MovieRepositoryImpl()
 ) : ViewModel() {
@@ -20,9 +20,10 @@ class MovieDetailViewModel(
         moviesLiveData.value = AppState.Loading
         Thread {
             sleep(sleepTimeInMills)
-            val appState =
+            /*val appState =
                 if (random.nextInt(2) == 0) AppState.Success(movieRepository.getMoviesFromLocalStorage())
-                else AppState.Error(Throwable("Error of detail load"))
+                else AppState.Error(Throwable("Error of detail load"))*/
+            val appState = AppState.Success(movieRepository.getMoviesFromLocalStorage())
             moviesLiveData.postValue(appState)
         }.start()
     }
