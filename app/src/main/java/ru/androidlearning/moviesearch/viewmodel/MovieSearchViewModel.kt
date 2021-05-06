@@ -20,10 +20,9 @@ class MovieSearchViewModel(
         moviesLiveData.value = AppState.Loading
         Thread {
             sleep(sleepTimeInMills)
-            /*val appState =
+            val appState =
                 if (random.nextInt(2) == 0) AppState.Success(movieRepository.getMoviesFromLocalStorage())
-                else AppState.Error(Throwable("Error of detail load"))*/
-            val appState = AppState.Success(movieRepository.getMoviesFromLocalStorage())
+                else AppState.Error(Throwable("Error of detail load"))
             moviesLiveData.postValue(appState)
         }.start()
     }

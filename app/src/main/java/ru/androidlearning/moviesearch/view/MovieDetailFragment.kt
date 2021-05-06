@@ -1,8 +1,6 @@
 package ru.androidlearning.moviesearch.view
 
-import android.app.AlertDialog
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,12 +9,10 @@ import android.view.ViewGroup
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
-import ru.androidlearning.moviesearch.viewmodel.AppState
-import ru.androidlearning.moviesearch.viewmodel.MovieSearchViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MovieDetailFragment() : Fragment() {
+class MovieDetailFragment : Fragment() {
     private var _binding: MovieDetailFragmentBinding? = null
     private val movieDetailFragmentBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity

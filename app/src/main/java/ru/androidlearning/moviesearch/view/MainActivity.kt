@@ -4,22 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.AppBarMainBinding
-import ru.androidlearning.moviesearch.databinding.MainActivityBinding
-import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
-import ru.androidlearning.moviesearch.databinding.MoviesSearchFragmentBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mainActivityBinding: MainActivityBinding
     private lateinit var appBarMainBinding: AppBarMainBinding
-    private lateinit var movieDetailFragmentBinding: MovieDetailFragmentBinding
-    private lateinit var moviesSearchFragmentBinding: MoviesSearchFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainActivityBinding = MainActivityBinding.inflate(layoutInflater)
         appBarMainBinding = AppBarMainBinding.inflate(layoutInflater)
-        movieDetailFragmentBinding = MovieDetailFragmentBinding.inflate(layoutInflater)
-        moviesSearchFragmentBinding = MoviesSearchFragmentBinding.inflate(layoutInflater)
 
         setContentView(appBarMainBinding.root)
         initToolBar()
