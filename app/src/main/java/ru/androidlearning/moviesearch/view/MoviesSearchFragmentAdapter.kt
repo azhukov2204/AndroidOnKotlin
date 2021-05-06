@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.model.Movie
 
-class MoviesSearchFragmentAdapter(private var onMovieItemClickListener: OnMovieItemClickListener?) :
+class MoviesSearchFragmentAdapter :
     RecyclerView.Adapter<MoviesSearchFragmentAdapter.MoviesSearchFragmentHolder>() {
     private var moviesList = listOf<Movie>()
-    private val movieCategoriesList: MutableList<String> = arrayListOf()
+    private var movieCategoriesList: List<String> = arrayListOf()
+    private var onMovieItemClickListener: OnMovieItemClickListener? = null
 
     fun setMoviesList(moviesList: List<Movie>) {
         this.moviesList = moviesList
-        this.movieCategoriesList.addAll(getCategoriesListFromMoviesList(moviesList))
+        this.movieCategoriesList = getCategoriesListFromMoviesList(moviesList)
         notifyDataSetChanged()
     }
 
@@ -40,16 +41,20 @@ class MoviesSearchFragmentAdapter(private var onMovieItemClickListener: OnMovieI
 
     override fun getItemCount(): Int = movieCategoriesList.size
 
+    fun setOnClickListener(onMovieItemClickListener: OnMovieItemClickListener) {
+        this.onMovieItemClickListener = onMovieItemClickListener
+    }
+
     fun removeListener() {
         onMovieItemClickListener = null
     }
 
     inner class MoviesSearchFragmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(moveCategory: String, moviesList: List<Movie>) {
-            val moviesListHorizontalListAdapter = MoviesHorizontalListAdapter(onMovieItemClickListener)
+            val moviesHorizontalListAdapter = MoviesHorizontalListAdapter(onMovieItemClickListener)
             itemView.findViewById<TextView>(R.id.movieCategoryTextView).text = moveCategory
-            itemView.findViewById<RecyclerView>(R.id.movieHorizontalRecyclerView).adapter = moviesListHorizontalListAdapter
-            moviesListHorizontalListAdapter.setData(moviesList.filter { it.category == moveCategory }, moveCategory)
+            itemView.findViewById<RecyclerView>(R.id.movieHorizontalRecyclerView).adapter = moviesHorizontalListAdapter
+            moviesHorizontalListAdapter.setData(moviesList.filter { it.category == moveCategory }, moveCategory)
         }
     }
 
