@@ -1,9 +1,12 @@
 package ru.androidlearning.moviesearch.model
 
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Parcelize
 data class Movie(
     //val moveId: Int,  //вероятно в будущем это свойство пригодится
     val name: String = "Криминальное чтиво",
@@ -18,7 +21,12 @@ data class Movie(
             "за женой Марселласа Мией и спасает ее от передозировки наркотиков. Во второй рассказывается о Бутче Кулидже," +
             " боксере, нанятом Уоллесом, чтобы сдать бой, но обманувшим его.",
     val category: String = "popular" //возможно потом заменю на enum или sealed class
-)
+): Parcelable
+{
+    companion object {
+        const val MOVIE_BUNDLE_KEY = "Movie"
+    }
+}
 
 fun getDateFromString(dateStr: String): Date? {
     val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())

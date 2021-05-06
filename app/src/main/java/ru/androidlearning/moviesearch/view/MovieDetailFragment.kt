@@ -16,16 +16,18 @@ import ru.androidlearning.moviesearch.viewmodel.MovieSearchViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MovieDetailFragment : Fragment() {
+class MovieDetailFragment() : Fragment() {
     private var _binding: MovieDetailFragmentBinding? = null
     private val movieDetailFragmentBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
 
     companion object {
-        fun newInstance() = MovieDetailFragment()
+        fun newInstance(bundle: Bundle): MovieDetailFragment {
+            val movieDetailFragment = MovieDetailFragment()
+            movieDetailFragment.arguments = bundle
+            return movieDetailFragment
+        }
     }
-
-    private lateinit var viewModel: MovieSearchViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,41 +50,10 @@ class MovieDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MovieSearchViewModel::class.java)
-        viewModel.getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.getMoviesFromLocalSource()
-    }
-
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            //is AppState.Success -> onSuccessAction(appState.movie)
-            is AppState.Error -> onErrorAction(appState.error.message)
-            is AppState.Loading -> onLoadingAction()
+        val movie = arguments?.getParcelable<Movie>(Movie.MOVIE_BUNDLE_KEY)
+        if (movie != null) {
+            setData(movie)
         }
-    }
-
-    private fun onLoadingAction() {
-        movieDetailFragmentBinding.loadingLayout.visibility = View.VISIBLE
-    }
-
-    private fun onErrorAction(message: String?) {
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder
-            .setTitle(getString(R.string.errorWord))
-            .setMessage(message)
-            .setCancelable(false)
-            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { viewModel.getMoviesFromLocalSource() } }
-            .setNegativeButton(getString(R.string.resurtnToPrevScreenButtonText)) { _, _ ->
-                run {
-                    fragmentManager?.popBackStack()
-                }
-            }
-            .create().show()
-    }
-
-    private fun onSuccessAction(movie: Movie) {
-        movieDetailFragmentBinding.loadingLayout.visibility = View.GONE
-        setData(movie)
     }
 
     private fun setData(movie: Movie) {

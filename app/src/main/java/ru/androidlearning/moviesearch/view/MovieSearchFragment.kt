@@ -18,8 +18,21 @@ class MovieSearchFragment : Fragment() {
     private var _binding: MoviesSearchFragmentBinding? = null
     private val movieSearchFragmentBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
-    private val moviesSearchFragmentAdapter = MoviesSearchFragmentAdapter()
     private lateinit var moviesSearchViewModel: MovieSearchViewModel
+    private val moviesSearchFragmentAdapter =
+        MoviesSearchFragmentAdapter(object : MoviesSearchFragmentAdapter.OnMovieItemClickListener {
+            override fun onMovieItemClick(movie: Movie) {
+                val fragmentManager = activity?.supportFragmentManager
+                if (fragmentManager != null) {
+                    val bundle = Bundle()
+                    bundle.putParcelable(Movie.MOVIE_BUNDLE_KEY, movie)
+                    fragmentManager.beginTransaction()
+                        .add(R.id.container, MovieDetailFragment.newInstance(bundle))
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss()
+                }
+            }
+        })
 
     companion object {
         @JvmStatic
@@ -54,7 +67,8 @@ class MovieSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         movieSearchFragmentBinding.movieSearchRecyclerView.adapter = moviesSearchFragmentAdapter
         moviesSearchViewModel = ViewModelProvider(this).get(MovieSearchViewModel::class.java)
-        moviesSearchViewModel.getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
+        moviesSearchViewModel.getMovieDetailsLiveData()
+            .observe(viewLifecycleOwner, { renderData(it) })
         moviesSearchViewModel.getMoviesFromLocalSource()
     }
 
@@ -92,7 +106,8 @@ class MovieSearchFragment : Fragment() {
 
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        moviesSearchFragmentAdapter.removeListener()
         _binding = null
+        super.onDestroyView()
     }
 }
