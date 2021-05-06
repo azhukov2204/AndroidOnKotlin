@@ -19,8 +19,21 @@ class MovieSearchFragment : Fragment() {
     private val movieSearchFragmentBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
     private lateinit var moviesSearchViewModel: MovieSearchViewModel
-    private val moviesSearchFragmentAdapter =
-        MoviesSearchFragmentAdapter()
+    private val moviesSearchFragmentAdapter = MoviesSearchFragmentAdapter()
+    private val onMovieItemClickListener =
+        object : MoviesSearchFragmentAdapter.OnMovieItemClickListener {
+            override fun onMovieItemClick(movie: Movie) {
+                val fragmentManager = activity?.supportFragmentManager
+                if (fragmentManager != null) {
+                    val bundle = Bundle()
+                    bundle.putParcelable(Movie.MOVIE_BUNDLE_KEY, movie)
+                    fragmentManager.beginTransaction()
+                        .add(R.id.container, MovieDetailFragment.newInstance(bundle))
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss()
+                }
+            }
+        }
 
     companion object {
         @JvmStatic
@@ -43,19 +56,7 @@ class MovieSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        moviesSearchFragmentAdapter.setOnClickListener(object : MoviesSearchFragmentAdapter.OnMovieItemClickListener {
-            override fun onMovieItemClick(movie: Movie) {
-                val fragmentManager = activity?.supportFragmentManager
-                if (fragmentManager != null) {
-                    val bundle = Bundle()
-                    bundle.putParcelable(Movie.MOVIE_BUNDLE_KEY, movie)
-                    fragmentManager.beginTransaction()
-                        .add(R.id.container, MovieDetailFragment.newInstance(bundle))
-                        .addToBackStack(null)
-                        .commitAllowingStateLoss()
-                }
-            }
-        })
+        moviesSearchFragmentAdapter.setOnClickListener(onMovieItemClickListener)
         movieSearchFragmentBinding.movieSearchRecyclerView.adapter = moviesSearchFragmentAdapter
         moviesSearchViewModel = ViewModelProvider(this).get(MovieSearchViewModel::class.java)
         moviesSearchViewModel.getMovieDetailsLiveData()
