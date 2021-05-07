@@ -96,7 +96,6 @@ class MovieSearchFragment : Fragment() {
         moviesSearchFragmentAdapter.setMoviesList(movies)
     }
 
-
     override fun onDestroyView() {
         moviesSearchFragmentAdapter.removeListener()
         _binding = null
