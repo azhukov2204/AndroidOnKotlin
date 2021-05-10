@@ -10,33 +10,37 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appBarMainBinding = AppBarMainBinding.inflate(layoutInflater)
-
-        setContentView(appBarMainBinding.root)
         initToolBar()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MovieSearchFragment.newInstance())
-                .commitNow()
+                    .replace(R.id.container, MovieSearchFragment.newInstance())
+                    .commitNow()
         }
     }
 
     private fun initToolBar() {
-        setSupportActionBar(appBarMainBinding.toolbar)
+        appBarMainBinding = AppBarMainBinding.inflate(layoutInflater).also { AppBarMainBinding ->
+            setContentView(AppBarMainBinding.root)
+            setSupportActionBar(AppBarMainBinding.toolbar)
+        }
     }
 
     fun showHomeButton() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
     }
 
     fun hideHomeButton() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        supportActionBar?.setHomeButtonEnabled(false)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            setHomeButtonEnabled(false)
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
+    override fun onSupportNavigateUp() = super.onSupportNavigateUp().also {
+        hideHomeButton()
         onBackPressed()
-        return super.onSupportNavigateUp()
     }
 }
