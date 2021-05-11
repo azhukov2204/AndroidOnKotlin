@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.androidlearning.moviesearch.R
+import ru.androidlearning.moviesearch.common_functions.getStringFromDate
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
 import java.text.SimpleDateFormat
@@ -18,11 +19,7 @@ class MovieDetailFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
 
     companion object {
-        fun newInstance(bundle: Bundle): MovieDetailFragment {
-            val movieDetailFragment = MovieDetailFragment()
-            movieDetailFragment.arguments = bundle
-            return movieDetailFragment
-        }
+        fun newInstance(bundle: Bundle) = MovieDetailFragment().apply { arguments = bundle }
     }
 
     override fun onAttach(context: Context) {
@@ -31,8 +28,8 @@ class MovieDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         _binding = MovieDetailFragmentBinding.inflate(inflater, container, false)
         mainActivity.showHomeButton()
@@ -46,39 +43,15 @@ class MovieDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val movie = arguments?.getParcelable<Movie>(Movie.MOVIE_BUNDLE_KEY)
-        if (movie != null) {
-            setData(movie)
-        }
+        arguments?.getParcelable<Movie>(Movie.MOVIE_BUNDLE_KEY)?.let { movie -> setData(movie) }
     }
 
-    private fun setData(movie: Movie) {
-        movieDetailFragmentBinding.movieName.text = movie.name
-        movieDetailFragmentBinding.movieGenre.text =
-            String.format(Locale.getDefault(), getString(R.string.genreWord) + movie.genre)
-        movieDetailFragmentBinding.movieDuration.text = String.format(
-            Locale.getDefault(),
-            getString(R.string.durationWord) + movie.durationInMinutes.toString() + " " + getString(
-                R.string.minutesWord
-            )
-        )
-        movieDetailFragmentBinding.movieRating.text = String.format(
-            Locale.getDefault(),
-            getString(R.string.ratingWord) + movie.rating.toString()
-        )
-        movieDetailFragmentBinding.movieReleaseDate.text =
-            String.format(
-                Locale.getDefault(),
-                getString(R.string.releaseDateWord) + movie.releaseDate?.let {
-                    getStringFromDate(
-                        it
-                    )
-                })
+    private fun setData(movie: Movie) = with(movieDetailFragmentBinding) {
+        movieName.text = movie.name
+        movieGenre.text = String.format(Locale.getDefault(), getString(R.string.genreWord) + movie.genre)
+        movieDuration.text = String.format(Locale.getDefault(), getString(R.string.durationWord) + movie.durationInMinutes.toString() + " " + getString(R.string.minutesWord))
+        movieRating.text = String.format(Locale.getDefault(), getString(R.string.ratingWord) + movie.rating.toString())
+        movieReleaseDate.text = String.format(Locale.getDefault(), getString(R.string.releaseDateWord) + movie.releaseDate?.let { getStringFromDate(it) })
         movieDetailFragmentBinding.movieDescription.text = movie.description
-    }
-
-    private fun getStringFromDate(date: Date): String {
-        val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
-        return sdf.format(date)
     }
 }

@@ -1,6 +1,5 @@
 package ru.androidlearning.moviesearch.view
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MoviesSearchFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
@@ -18,16 +18,16 @@ class MovieSearchFragment : Fragment() {
     private var _binding: MoviesSearchFragmentBinding? = null
     private val movieSearchFragmentBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
-    private lateinit var moviesSearchViewModel: MovieSearchViewModel
+    private val moviesSearchViewModel: MovieSearchViewModel by lazy {
+        ViewModelProvider(this).get(MovieSearchViewModel::class.java)
+    }
     private val moviesSearchFragmentAdapter = MoviesSearchFragmentAdapter()
     private val onMovieItemClickListener =
         object : MoviesSearchFragmentAdapter.OnMovieItemClickListener {
             override fun onMovieItemClick(movie: Movie) {
-                val fragmentManager = activity?.supportFragmentManager
-                if (fragmentManager != null) {
-                    val bundle = Bundle()
-                    bundle.putParcelable(Movie.MOVIE_BUNDLE_KEY, movie)
-                    fragmentManager.beginTransaction()
+                activity?.supportFragmentManager?.let {
+                    val bundle = Bundle().apply { putParcelable(Movie.MOVIE_BUNDLE_KEY, movie) }
+                    it.beginTransaction()
                         .add(R.id.container, MovieDetailFragment.newInstance(bundle))
                         .addToBackStack(null)
                         .commitAllowingStateLoss()
@@ -58,10 +58,11 @@ class MovieSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         moviesSearchFragmentAdapter.setOnClickListener(onMovieItemClickListener)
         movieSearchFragmentBinding.movieSearchRecyclerView.adapter = moviesSearchFragmentAdapter
-        moviesSearchViewModel = ViewModelProvider(this).get(MovieSearchViewModel::class.java)
-        moviesSearchViewModel.getMovieDetailsLiveData()
-            .observe(viewLifecycleOwner, { renderData(it) })
-        moviesSearchViewModel.getMoviesFromLocalSource()
+
+        moviesSearchViewModel.run {
+            getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
+            getMoviesFromLocalSource()
+        }
     }
 
     private fun renderData(appState: AppState?) {
@@ -77,28 +78,39 @@ class MovieSearchFragment : Fragment() {
     }
 
     private fun onErrorAction(message: String?) {
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder
-            .setTitle(getString(R.string.errorWord))
-            .setMessage(message)
-            .setCancelable(false)
-            .setPositiveButton(getString(R.string.tryToReloadButtonText)) { _, _ -> run { moviesSearchViewModel.getMoviesFromLocalSource() } }
-            .setNegativeButton(getString(R.string.resurtnToPrevScreenButtonText)) { _, _ ->
-                run {
-                    fragmentManager?.popBackStack()
-                }
-            }
-            .create().show()
+        message?.let {
+            movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.showSnackBar(
+                message,
+                getString(R.string.tryToReloadButtonText),
+                { moviesSearchViewModel.getMoviesFromLocalSource() })
+        }
     }
 
     private fun onSuccessAction(movies: List<Movie>) {
         movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.visibility = View.GONE
         moviesSearchFragmentAdapter.setMoviesList(movies)
+        movieSearchFragmentBinding.movieSearchFragmentMainLayout.showSnackBar(R.string.loadingCompletedSuccessfullyText)
     }
 
     override fun onDestroyView() {
         moviesSearchFragmentAdapter.removeListener()
         _binding = null
         super.onDestroyView()
+    }
+
+    private fun View.showSnackBar(
+        message: String,
+        actionText: String,
+        action: (View) -> Unit,
+        length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {
+        Snackbar.make(this, message, length).setAction(actionText, action).show()
+    }
+
+    private fun View.showSnackBar(
+        messageResource: Int,
+        length: Int = Snackbar.LENGTH_SHORT
+    ) {
+        Snackbar.make(this, getString(messageResource), length).show()
     }
 }

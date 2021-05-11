@@ -9,7 +9,7 @@ import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.model.Movie
 
 class MoviesSearchFragmentAdapter :
-    RecyclerView.Adapter<MoviesSearchFragmentAdapter.MoviesSearchFragmentHolder>() {
+        RecyclerView.Adapter<MoviesSearchFragmentAdapter.MoviesSearchFragmentHolder>() {
     private var moviesList = listOf<Movie>()
     private var movieCategoriesList: List<String> = arrayListOf()
     private var onMovieItemClickListener: OnMovieItemClickListener? = null
@@ -28,12 +28,8 @@ class MoviesSearchFragmentAdapter :
         return ArrayList(categoriesSet)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesSearchFragmentHolder {
-        return MoviesSearchFragmentHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.movies_horizontal_list_item, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesSearchFragmentHolder = MoviesSearchFragmentHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.movies_horizontal_list_item, parent, false))
 
     override fun onBindViewHolder(holder: MoviesSearchFragmentHolder, position: Int) {
         holder.bind(movieCategoriesList[position], moviesList)
@@ -52,8 +48,10 @@ class MoviesSearchFragmentAdapter :
     inner class MoviesSearchFragmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(moveCategory: String, moviesList: List<Movie>) {
             val moviesHorizontalListAdapter = MoviesHorizontalListAdapter(onMovieItemClickListener)
-            itemView.findViewById<TextView>(R.id.movieCategoryTextView).text = moveCategory
-            itemView.findViewById<RecyclerView>(R.id.movieHorizontalRecyclerView).adapter = moviesHorizontalListAdapter
+            itemView.apply {
+                findViewById<TextView>(R.id.movieCategoryTextView).text = moveCategory
+                findViewById<RecyclerView>(R.id.movieHorizontalRecyclerView).adapter = moviesHorizontalListAdapter
+            }
             moviesHorizontalListAdapter.setData(moviesList.filter { it.category == moveCategory }, moveCategory)
         }
     }
