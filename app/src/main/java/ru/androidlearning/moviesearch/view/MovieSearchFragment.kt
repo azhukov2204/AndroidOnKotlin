@@ -61,7 +61,7 @@ class MovieSearchFragment : Fragment() {
 
         moviesSearchViewModel.run {
             getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
-            getMoviesFromLocalSource()
+            getMoviesFromServer()
         }
     }
 
@@ -82,7 +82,7 @@ class MovieSearchFragment : Fragment() {
             movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.showSnackBar(
                 message,
                 getString(R.string.tryToReloadButtonText),
-                { moviesSearchViewModel.getMoviesFromLocalSource() })
+                { moviesSearchViewModel.getMoviesFromServer() })
         }
     }
 

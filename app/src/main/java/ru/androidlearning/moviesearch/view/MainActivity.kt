@@ -39,8 +39,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp() = super.onSupportNavigateUp().also {
-        hideHomeButton()
+    override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        hideHomeButton()
+        super.onBackPressed()
     }
 }
