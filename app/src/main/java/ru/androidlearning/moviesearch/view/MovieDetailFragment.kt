@@ -1,6 +1,9 @@
 package ru.androidlearning.moviesearch.view
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,13 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.snackbar.Snackbar
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.common_functions.getStringFromDate
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
-import ru.androidlearning.moviesearch.model.Movie
-import ru.androidlearning.moviesearch.model.MovieDetailsDTO
-import ru.androidlearning.moviesearch.model.MovieDetailsLoader
+import ru.androidlearning.moviesearch.model.*
 import java.util.*
 
 class MovieDetailFragment : Fragment() {
@@ -22,19 +24,27 @@ class MovieDetailFragment : Fragment() {
     private val movieDetailFragmentBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
     private var movie: Movie? = null
-    private lateinit var movieDetailsLoader: MovieDetailsLoader
-    private val movieDetailsLoaderListener = object : MovieDetailsLoader.MovieDetailsLoaderListener {
-        override fun onSuccess(movieDetailsDTO: MovieDetailsDTO?) {
-            movie?.durationInMinutes = movieDetailsDTO?.runtime  //когда полей будет больше - сделаю отдельный метод для маппинга
-            movie?.let { setData(it) }
-        }
-        @RequiresApi(Build.VERSION_CODES.N)
-        override fun onFailed(throwable: Throwable) {
-            throwable.message?.let { message ->
-                movieDetailFragmentBinding.movieDetailFragmentLoadingLayout.showSnackBar(
-                    message,
-                    getString(R.string.tryToReloadButtonText),
-                    { movie?.id?.let { movieDetailsLoader.loadDetailsList(it) } })
+
+    private val movieDetailsReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val movieDetailsLoadingResult = intent?.getParcelableExtra<MovieDetailsLoadingResult>(
+                MOVIE_DETAILS_RESULTS_BROADCAST_BUNDLE_KEY
+            )
+
+            if (movieDetailsLoadingResult == null) {
+                movieDetailFragmentBinding.movieDetailFragmentLoadingLayout.showSnackBar("Failed to load data, empty object")
+            } else {
+                if (!movieDetailsLoadingResult.isSuccessful) {
+                    movieDetailsLoadingResult.error?.message?.let {
+                        movieDetailFragmentBinding.movieDetailFragmentLoadingLayout.showSnackBar(
+                            it
+                        )
+                    }
+                } else {
+                    movie?.durationInMinutes =
+                        movieDetailsLoadingResult.movieDetailsDTO?.runtime  //когда полей будет больше - сделаю отдельный метод для маппинга
+                    movie?.let { setData(it) }
+                }
             }
         }
     }
@@ -46,6 +56,17 @@ class MovieDetailFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.let {
+            LocalBroadcastManager.getInstance(it)
+                .registerReceiver(
+                    movieDetailsReceiver,
+                    IntentFilter(MOVIE_DETAILS_LOADER_INTENT_FILTER)
+                )
+        }
     }
 
     override fun onCreateView(
@@ -62,12 +83,24 @@ class MovieDetailFragment : Fragment() {
         _binding = null
     }
 
+    override fun onDestroy() {
+        context?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(movieDetailsReceiver)
+        }
+        super.onDestroy()
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         movie = arguments?.getParcelable(Movie.MOVIE_BUNDLE_KEY)
-        movieDetailsLoader = MovieDetailsLoader(movieDetailsLoaderListener)
-        movie?.id?.let { movieDetailsLoader.loadDetailsList(it) }
+        movie?.id?.let { movieId ->
+            context?.let { context ->
+                context.startService(Intent(context, MovieDetailsLoaderService::class.java).apply {
+                    putExtra(MOVIE_ID_BUNDLE_KEY, movieId)
+                })
+            }
+        }
     }
 
     private fun setData(movie: Movie) = with(movieDetailFragmentBinding) {
@@ -93,9 +126,9 @@ class MovieDetailFragment : Fragment() {
 
     private fun View.showSnackBar(
         message: String,
-        actionText: String,
-        action: (View) -> Unit,
-        length: Int = Snackbar.LENGTH_INDEFINITE
+        length: Int = Snackbar.LENGTH_SHORT,
+        actionText: String? = null,
+        action: ((View) -> Unit)? = null
     ) {
         Snackbar.make(this, message, length).setAction(actionText, action).show()
     }
