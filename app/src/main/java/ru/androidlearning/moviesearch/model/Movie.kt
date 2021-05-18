@@ -8,13 +8,13 @@ import java.util.*
 
 @Parcelize
 data class Movie(
-    //val moveId: Int,  //вероятно в будущем это свойство пригодится
-    val name: String = "Криминальное чтиво",
-    val releaseDate: Date? = getDateFromString("1995/12/27"),
-    val rating: Float = 80f,
+    val id: Int? = 0,  //вероятно в будущем это свойство пригодится
+    val title: String? = "Криминальное чтиво",
+    val releaseDate: Date? = getDateFromString("1995-12-27"),
+    val rating: Double? = 80.0,
     val posterUri: Uri? = null,
     val genre: String? = "Триллер/криминал",
-    val durationInMinutes: Int? = 154,
+    var durationInMinutes: Int? = 154,
     val description: String? = "Двое бандитов Винсент Вега и Джулс Винфилд проводят время в философских беседах " +
             "в перерыве между разборками и «решением проблем» с должниками своего криминального босса " +
             "Марселласа Уоллеса. Параллельно разворачивается три истории. В первой из них Винсент присматривает " +
@@ -29,7 +29,8 @@ data class Movie(
 
 fun getMovies() = listOf(
     Movie(
-        "Криминальное чтиво", getDateFromString("1995/12/27"), 80f, null, "Триллер/криминал", 154,
+        0,
+        "Криминальное чтиво", getDateFromString("1995-12-27"), 80.0, null, "Триллер/криминал", 154,
         "Двое бандитов Винсент Вега и Джулс Винфилд проводят время в философских беседах " +
                 "в перерыве между разборками и «решением проблем» с должниками своего криминального босса " +
                 "Марселласа Уоллеса. Параллельно разворачивается три истории. В первой из них Винсент присматривает " +
@@ -38,9 +39,10 @@ fun getMovies() = listOf(
     ),
 
     Movie(
+        0,
         "Шрек 2",
-        getDateFromString("2004/08/19"),
-        71f,
+        getDateFromString("2004-08-19"),
+        71.0,
         null,
         "Мультфильм, семейный, комедия, фэнтези, приключения",
         93,
@@ -51,9 +53,10 @@ fun getMovies() = listOf(
     ),
 
     Movie(
+        0,
         "Сумерки",
-        getDateFromString("2008/11/20"),
-        63f,
+        getDateFromString("2008-11-20"),
+        63.0,
         null,
         "фэнтези, драма, мелодрама",
         122,
@@ -65,32 +68,38 @@ fun getMovies() = listOf(
     ),
 
     Movie(
-        "Film1", getDateFromString("2008/01/01"), 90f, null, "drama", 80,
+        0,
+        "Film1", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
         "Film description", "top100"
     ),
 
     Movie(
-        "Film2", getDateFromString("2008/01/01"), 90f, null, "drama", 80,
+        0,
+        "Film2", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
         "Film2 description", "top100"
     ),
 
     Movie(
-        "Film3", getDateFromString("2008/01/01"), 90f, null, "drama", 80,
+        0,
+        "Film3", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
         "Film3 description", "top100"
     ),
 
     Movie(
-        "Film1", getDateFromString("2008/01/01"), 90f, null, "drama", 80,
+        0,
+        "Film1", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
         "Film description", "top200"
     ),
 
     Movie(
-        "Film2", getDateFromString("2008/01/01"), 90f, null, "drama", 80,
+        0,
+        "Film2", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
         "Film2 description", "top200"
     ),
 
     Movie(
-        "Film3", getDateFromString("2008/01/01"), 90f, null, "drama", 80,
+        0,
+        "Film3", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
         "Film3 description", "top200"
     )
 )

@@ -31,7 +31,7 @@ class MoviesHorizontalListAdapter(private val onMovieItemClickListener: MoviesSe
 
     inner class MoviesHorizontalListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(movie: Movie) = with(itemView) {
-            findViewById<TextView>(R.id.movie_name).text = movie.name
+            findViewById<TextView>(R.id.movie_name).text = movie.title
             findViewById<TextView>(R.id.movie_genre).text = movie.genre
             findViewById<TextView>(R.id.movie_rating).text = movie.rating.toString()
             setOnClickListener { onMovieItemClickListener?.onMovieItemClick(movie) }
