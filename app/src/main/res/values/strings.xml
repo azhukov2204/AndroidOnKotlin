@@ -11,4 +11,6 @@
     <string name="ratingWord">Rating: </string>
     <string name="releaseDateWord">Release date: </string>
     <string name="openMovieDetailsButtonText">Open movie details</string>
+    <string name="dialogOKButtonText">OK</string>
+    <string name="connectionErrorDialogText">Connection error, please, check connection settings</string>
 </resources>

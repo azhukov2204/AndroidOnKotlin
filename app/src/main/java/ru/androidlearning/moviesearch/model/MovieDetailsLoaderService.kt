@@ -18,17 +18,19 @@ import javax.net.ssl.HttpsURLConnection
 const val MOVIE_DETAILS_LOADER_INTENT_FILTER = "MovieDetailsLoaderService"
 const val MOVIE_DETAILS_RESULTS_BROADCAST_BUNDLE_KEY = "MovieDetailsLoaderServiceResults"
 const val MOVIE_ID_BUNDLE_KEY = "MovieIdBundleKey"
+const val NO_INTENT_MESSAGE = "No intent"
+const val MOVIE_ID_IS_0_MESSAGE = "MovieId is 0"
 
 class MovieDetailsLoaderService(name: String = "MovieDetailsLoaderService") : IntentService(name) {
     private val broadcastIntent = Intent(MOVIE_DETAILS_LOADER_INTENT_FILTER)
 
     override fun onHandleIntent(intent: Intent?) {
         if (intent == null) {
-            sendResults(MovieDetailsLoadingResult(false, null, Throwable("No intent")))
+            sendResults(MovieDetailsLoadingResult(false, null, Throwable(NO_INTENT_MESSAGE)))
         } else {
             val movieId = intent.getIntExtra(MOVIE_ID_BUNDLE_KEY, 0)
             if (movieId == 0) {
-                sendResults(MovieDetailsLoadingResult(false, null, Throwable("movieId is 0")))
+                sendResults(MovieDetailsLoadingResult(false, null, Throwable(MOVIE_ID_IS_0_MESSAGE)))
             } else {
                 loadMovieDetails(movieId)
             }

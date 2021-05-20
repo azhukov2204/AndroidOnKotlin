@@ -49,9 +49,9 @@ class MovieSearchFragment : Fragment() {
             if (noConnectivity == true) {
                 AlertDialog.Builder(context)
                     .setTitle(getString(R.string.errorWord))
-                    .setMessage("Connection error: $reason. Please, check connection settings")
+                    .setMessage(getString(R.string.connectionErrorDialogText) + reason)
                     .setCancelable(true)
-                    .setPositiveButton("OK", null)
+                    .setPositiveButton(getString(R.string.dialogOKButtonText), null)
                     .create().show()
             }
         }
