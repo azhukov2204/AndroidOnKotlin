@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.view
+package ru.androidlearning.moviesearch.view.search
 
 import android.app.AlertDialog
 import android.content.BroadcastReceiver
@@ -7,17 +7,18 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MoviesSearchFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
-import ru.androidlearning.moviesearch.viewmodel.AppState
+import ru.androidlearning.moviesearch.view.MainActivity
+import ru.androidlearning.moviesearch.view.details.MovieDetailFragment
 import ru.androidlearning.moviesearch.viewmodel.MovieSearchViewModel
+import ru.androidlearning.moviesearch.viewmodel.MoviesListLoadState
 
 class MovieSearchFragment : Fragment() {
     private var _binding: MoviesSearchFragmentBinding? = null
@@ -26,10 +27,11 @@ class MovieSearchFragment : Fragment() {
     private val moviesSearchViewModel: MovieSearchViewModel by lazy {
         ViewModelProvider(this).get(MovieSearchViewModel::class.java)
     }
+    private val moviesListsFragmentAdapter = MoviesListsFragmentAdapter()
     private val moviesSearchFragmentAdapter = MoviesSearchFragmentAdapter()
 
     private val onMovieItemClickListener =
-        object : MoviesSearchFragmentAdapter.OnMovieItemClickListener {
+        object : MoviesListsFragmentAdapter.OnMovieItemClickListener {
             override fun onMovieItemClick(movie: Movie) {
                 activity?.supportFragmentManager?.let {
                     val bundle = Bundle().apply { putParcelable(Movie.MOVIE_BUNDLE_KEY, movie) }
@@ -81,17 +83,22 @@ class MovieSearchFragment : Fragment() {
     ): View {
         _binding = MoviesSearchFragmentBinding.inflate(inflater, container, false)
         mainActivity.hideHomeButton()
+        setHasOptionsMenu(true) //используем меню
         return movieSearchFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        moviesListsFragmentAdapter.setOnClickListener(onMovieItemClickListener)
         moviesSearchFragmentAdapter.setOnClickListener(onMovieItemClickListener)
-        movieSearchFragmentBinding.movieSearchRecyclerView.adapter = moviesSearchFragmentAdapter
+        movieSearchFragmentBinding.moviesListRecyclerView.adapter = moviesListsFragmentAdapter
+        movieSearchFragmentBinding.movieSearchResultsRecyclerView.adapter =
+            moviesSearchFragmentAdapter
 
         moviesSearchViewModel.run {
-            getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderData(it) })
-            getMoviesFromServer()
+            getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderDataMoviesList(it) })
+            getMoviesSearchLiveData().observe(viewLifecycleOwner, { renderDataMoviesSearch(it) })
+            getMoviesFromServer(getString(R.string.language))
         }
     }
 
@@ -100,12 +107,25 @@ class MovieSearchFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun renderData(appState: AppState?) {
-        when (appState) {
-            is AppState.Success -> onSuccessAction(appState.movies)
-            is AppState.Error -> onErrorAction(appState.error.message)
-            is AppState.Loading -> onLoadingAction()
+    private fun renderDataMoviesList(moviesListLoadState: MoviesListLoadState?) {
+        when (moviesListLoadState) {
+            is MoviesListLoadState.Success -> onSuccessListLoading(moviesListLoadState.movies)
+            is MoviesListLoadState.Error -> onErrorAction(moviesListLoadState.error.message)
+            is MoviesListLoadState.Loading -> onLoadingAction()
         }
+    }
+
+    private fun renderDataMoviesSearch(moviesListLoadState: MoviesListLoadState?) {
+        when (moviesListLoadState) {
+            is MoviesListLoadState.Success -> onSuccessMoviesSearching(moviesListLoadState.movies)
+            is MoviesListLoadState.Error -> onErrorAction(moviesListLoadState.error.message)
+            is MoviesListLoadState.Loading -> onLoadingAction()
+        }
+    }
+
+    private fun onSuccessMoviesSearching(movies: List<Movie>) {
+        movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.visibility = View.GONE
+        moviesSearchFragmentAdapter.setData(movies)
     }
 
     private fun onLoadingAction() {
@@ -118,17 +138,18 @@ class MovieSearchFragment : Fragment() {
                 message,
                 Snackbar.LENGTH_INDEFINITE,
                 getString(R.string.tryToReloadButtonText)
-            ) { moviesSearchViewModel.getMoviesFromServer() }
+            ) { moviesSearchViewModel.getMoviesFromServer(getString(R.string.language)) }
         }
     }
 
-    private fun onSuccessAction(movies: List<Movie>) {
+    private fun onSuccessListLoading(movies: List<Movie>) {
         movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.visibility = View.GONE
-        moviesSearchFragmentAdapter.setMoviesList(movies)
+        moviesListsFragmentAdapter.setMoviesList(movies)
         movieSearchFragmentBinding.movieSearchFragmentMainLayout.showSnackBar(R.string.loadingCompletedSuccessfullyText)
     }
 
     override fun onDestroyView() {
+        moviesListsFragmentAdapter.removeListener()
         moviesSearchFragmentAdapter.removeListener()
         _binding = null
         super.onDestroyView()
@@ -148,5 +169,31 @@ class MovieSearchFragment : Fragment() {
         length: Int = Snackbar.LENGTH_SHORT
     ) {
         Snackbar.make(this, getString(messageResource), length).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.movies_search_menu, menu)
+        val searchMenu = menu.findItem(R.id.action_search).actionView as SearchView
+        searchMenu.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                startMoviesSearching(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                startMoviesSearching(newText)
+                return true
+            }
+        })
+    }
+
+    private fun startMoviesSearching(movieSearchString: String?) {
+        if (movieSearchString == null || movieSearchString.isBlank()) {
+            movieSearchFragmentBinding.movieSearchFragmentSearchResults.visibility = View.GONE
+        } else {
+            movieSearchFragmentBinding.movieSearchFragmentSearchResults.visibility = View.VISIBLE
+            moviesSearchViewModel.searchMovies(movieSearchString, getString(R.string.language))
+        }
     }
 }

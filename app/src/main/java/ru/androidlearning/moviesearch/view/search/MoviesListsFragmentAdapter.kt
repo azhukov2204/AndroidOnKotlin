@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.view
+package ru.androidlearning.moviesearch.view.search
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.model.Movie
 
-class MoviesSearchFragmentAdapter :
-        RecyclerView.Adapter<MoviesSearchFragmentAdapter.MoviesSearchFragmentHolder>() {
+class MoviesListsFragmentAdapter :
+        RecyclerView.Adapter<MoviesListsFragmentAdapter.MoviesListsFragmentHolder>() {
     private var moviesList = listOf<Movie>()
     private var movieCategoriesList: List<String> = arrayListOf()
     private var onMovieItemClickListener: OnMovieItemClickListener? = null
@@ -28,10 +28,10 @@ class MoviesSearchFragmentAdapter :
         return ArrayList(categoriesSet)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesSearchFragmentHolder = MoviesSearchFragmentHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesListsFragmentHolder = MoviesListsFragmentHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.movies_horizontal_list_item, parent, false))
 
-    override fun onBindViewHolder(holder: MoviesSearchFragmentHolder, position: Int) {
+    override fun onBindViewHolder(holder: MoviesListsFragmentHolder, position: Int) {
         holder.bind(movieCategoriesList[position], moviesList)
     }
 
@@ -45,7 +45,7 @@ class MoviesSearchFragmentAdapter :
         onMovieItemClickListener = null
     }
 
-    inner class MoviesSearchFragmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MoviesListsFragmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(moveCategory: String, moviesList: List<Movie>) {
             val moviesHorizontalListAdapter = MoviesHorizontalListAdapter(onMovieItemClickListener)
             itemView.apply {
