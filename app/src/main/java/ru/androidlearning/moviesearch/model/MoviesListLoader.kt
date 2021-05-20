@@ -16,7 +16,7 @@ import java.net.URL
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
-val GET_MOVIES_LISTS_REQUESTS = mapOf(
+private val GET_MOVIES_LISTS_REQUESTS = mapOf(
     "Popular" to URL("https://api.themoviedb.org/3/movie/popular?api_key=${BuildConfig.MOVIE_DB_API_KEY}&page=1&language=ru"),
     "Top Rated" to URL("https://api.themoviedb.org/3/movie/top_rated?api_key=${BuildConfig.MOVIE_DB_API_KEY}&page=1&language=ru"),
     "Upcoming" to URL("https://api.themoviedb.org/3/movie/upcoming?api_key=${BuildConfig.MOVIE_DB_API_KEY}&page=1&language=ru"),

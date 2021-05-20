@@ -1,11 +1,16 @@
 package ru.androidlearning.moviesearch.view
 
+import android.app.AlertDialog
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import ru.androidlearning.moviesearch.R
@@ -22,6 +27,7 @@ class MovieSearchFragment : Fragment() {
         ViewModelProvider(this).get(MovieSearchViewModel::class.java)
     }
     private val moviesSearchFragmentAdapter = MoviesSearchFragmentAdapter()
+
     private val onMovieItemClickListener =
         object : MoviesSearchFragmentAdapter.OnMovieItemClickListener {
             override fun onMovieItemClick(movie: Movie) {
@@ -35,6 +41,22 @@ class MovieSearchFragment : Fragment() {
             }
         }
 
+    private val connectivityActionReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val noConnectivity =
+                intent?.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false)
+            val reason = intent?.getStringExtra(ConnectivityManager.EXTRA_REASON)
+            if (noConnectivity == true) {
+                AlertDialog.Builder(context)
+                    .setTitle(getString(R.string.errorWord))
+                    .setMessage(getString(R.string.connectionErrorDialogText) + reason)
+                    .setCancelable(true)
+                    .setPositiveButton(getString(R.string.dialogOKButtonText), null)
+                    .create().show()
+            }
+        }
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = MovieSearchFragment()
@@ -43,6 +65,14 @@ class MovieSearchFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.registerReceiver(
+            connectivityActionReceiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION) //свойство deprecated, но в Д/З сказано подписаться на это событие
+        )
     }
 
     override fun onCreateView(
@@ -65,6 +95,11 @@ class MovieSearchFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        context?.unregisterReceiver(connectivityActionReceiver)
+        super.onDestroy()
+    }
+
     private fun renderData(appState: AppState?) {
         when (appState) {
             is AppState.Success -> onSuccessAction(appState.movies)
@@ -81,8 +116,9 @@ class MovieSearchFragment : Fragment() {
         message?.let {
             movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.showSnackBar(
                 message,
-                getString(R.string.tryToReloadButtonText),
-                { moviesSearchViewModel.getMoviesFromServer() })
+                Snackbar.LENGTH_INDEFINITE,
+                getString(R.string.tryToReloadButtonText)
+            ) { moviesSearchViewModel.getMoviesFromServer() }
         }
     }
 
@@ -100,9 +136,9 @@ class MovieSearchFragment : Fragment() {
 
     private fun View.showSnackBar(
         message: String,
-        actionText: String,
-        action: (View) -> Unit,
-        length: Int = Snackbar.LENGTH_INDEFINITE
+        length: Int = Snackbar.LENGTH_SHORT,
+        actionText: String? = null,
+        action: ((View) -> Unit)? = null
     ) {
         Snackbar.make(this, message, length).setAction(actionText, action).show()
     }
