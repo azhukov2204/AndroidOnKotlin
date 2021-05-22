@@ -2,28 +2,57 @@ package ru.androidlearning.moviesearch.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.androidlearning.moviesearch.R
-import ru.androidlearning.moviesearch.databinding.AppBarMainBinding
+import ru.androidlearning.moviesearch.databinding.MainActivityBinding
+import ru.androidlearning.moviesearch.view.history.MoviesHistoryFragment
 import ru.androidlearning.moviesearch.view.search.MovieSearchFragment
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var appBarMainBinding: AppBarMainBinding
+    private lateinit var mainActivityBinding: MainActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initToolBar()
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MovieSearchFragment.newInstance())
-                    .commitNow()
+            openMovieSearchFragment()
         }
     }
 
     private fun initToolBar() {
-        appBarMainBinding = AppBarMainBinding.inflate(layoutInflater).also { AppBarMainBinding ->
-            setContentView(AppBarMainBinding.root)
-            setSupportActionBar(AppBarMainBinding.toolbar)
+        mainActivityBinding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(mainActivityBinding.root)
+        setSupportActionBar(mainActivityBinding.toolbar)
+        val navView: BottomNavigationView = mainActivityBinding.navView
+
+        navView.setOnNavigationItemSelectedListener { it ->
+            when (it.itemId) {
+                R.id.movieSearchFragment -> {
+                    openMovieSearchFragment()
+                    true
+                }
+                R.id.movieHistoryFragment -> {
+                    openMovieHistoryFragment()
+                    true
+                }
+
+                else -> {
+                    false
+                }
+            }
         }
+    }
+
+    private fun openMovieHistoryFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, MoviesHistoryFragment.newInstance())
+            .commitAllowingStateLoss()
+    }
+
+    private fun openMovieSearchFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, MovieSearchFragment.newInstance())
+            .commitAllowingStateLoss()
     }
 
     fun showHomeButton() {

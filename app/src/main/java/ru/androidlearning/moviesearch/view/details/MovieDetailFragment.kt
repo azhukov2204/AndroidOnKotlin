@@ -12,6 +12,8 @@ import com.squareup.picasso.Picasso
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.*
+import ru.androidlearning.moviesearch.repository.db.MovieEntity
+import ru.androidlearning.moviesearch.utils.getStringFromDate
 import ru.androidlearning.moviesearch.view.MainActivity
 import ru.androidlearning.moviesearch.viewmodel.MovieDetailsLoadState
 import ru.androidlearning.moviesearch.viewmodel.MovieDetailsViewModel
@@ -30,6 +32,7 @@ class MovieDetailFragment : Fragment() {
     }
 
     companion object {
+        @JvmStatic
         fun newInstance(bundle: Bundle) = MovieDetailFragment().apply { arguments = bundle }
     }
 
@@ -37,7 +40,6 @@ class MovieDetailFragment : Fragment() {
         super.onAttach(context)
         mainActivity = context as MainActivity
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,14 +55,15 @@ class MovieDetailFragment : Fragment() {
         _binding = null
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movie = arguments?.getParcelable(Movie.MOVIE_BUNDLE_KEY)
         movie?.id?.let { movieId ->
             movieDetailsViewModel.run {
                 getMovieDetailsLiveData().observe(viewLifecycleOwner) { renderData(it) }
-                getMovieDetailsFromServer(movieId, getString(R.string.language))
+                if (savedInstanceState == null) {  //чтоб каждый раз при смене ориентации не запрашивать данные с сервера
+                    getMovieDetailsFromServer(movieId, getString(R.string.language))
+                }
             }
 
         }
@@ -89,6 +92,7 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun setData(movie: Movie) = with(movieDetailFragmentBinding) {
+        saveDataToDB(movie)
         movieDetailFragmentLoadingLayout.visibility = View.GONE
         movieName.text = movie.title
         movieGenre.text =
@@ -105,9 +109,33 @@ class MovieDetailFragment : Fragment() {
         )
         movieReleaseDate.text = String.format(
             Locale.getDefault(),
-            getString(R.string.releaseDateWord) + movie.releaseDate)
+            getString(R.string.releaseDateWord) + movie.releaseDate
+        )
         movieDescription.text = movie.description
+        if (movie.isAdult == true) {
+            forAdult.visibility = View.VISIBLE
+        } else {
+            forAdult.visibility = View.GONE
+        }
         Picasso.get().load("$POSTERS_BASE_URL${movie.posterUri}").into(movePoster)
+    }
+
+    private fun saveDataToDB(movie: Movie, note: String = "", isFavorites: Boolean = false) {
+        val movieEntity = MovieEntity(
+            id = movie.id!!,
+            title = movie.title,
+            releaseDate = movie.releaseDate,
+            rating = movie.rating,
+            posterUri = movie.posterUri,
+            genre = movie.genre,
+            durationInMinutes = movie.durationInMinutes,
+            description = movie.description,
+            isAdult = movie.isAdult,
+            note = note,
+            isFavorites = isFavorites,
+            viewedDate = getStringFromDate(Date())
+        )
+        movieDetailsViewModel.saveMovieToDB(movieEntity)
     }
 
     private fun View.showSnackBar(

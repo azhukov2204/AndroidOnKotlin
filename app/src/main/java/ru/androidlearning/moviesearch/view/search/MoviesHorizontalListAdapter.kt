@@ -29,7 +29,8 @@ class MoviesHorizontalListAdapter(private val onMovieItemClickListener: MoviesLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHorizontalListHolder =
         MoviesHorizontalListHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.movie_horizintal_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.movie_horizintal_item, parent, false)
         )
 
     override fun onBindViewHolder(holder: MoviesHorizontalListHolder, position: Int) {
@@ -57,6 +58,12 @@ class MoviesHorizontalListAdapter(private val onMovieItemClickListener: MoviesLi
                     }
                 }
             )
+            val forAdultTextView = findViewById<TextView>(R.id.for_adult)
+            if (movie.isAdult == true) {
+                forAdultTextView.visibility = View.VISIBLE
+            } else {
+                forAdultTextView.visibility = View.GONE
+            }
             Picasso.get().load("${POSTERS_BASE_URL}${movie.posterUri}")
                 .into(findViewById<AppCompatImageView>(R.id.movePoster))
             setOnClickListener { onMovieItemClickListener?.onMovieItemClick(movie) }

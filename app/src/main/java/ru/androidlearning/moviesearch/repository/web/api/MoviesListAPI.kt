@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.repository.api
+package ru.androidlearning.moviesearch.repository.web.api
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -10,6 +10,7 @@ interface MoviesListAPI {
     fun getMoviesList(
         @Query("api_key") token: String,
         @Query("page") pageNumber: Int,
+        @Query("include_adult") useAdultsContent: Boolean,
         @Query("language") language: String
     ): Call<MoviesListDTO>
 }
@@ -19,6 +20,7 @@ interface MoviesListLatestAPI : MoviesListAPI {
     override fun getMoviesList(
         @Query("api_key") token: String,
         @Query("page") pageNumber: Int,
+        @Query("include_adult") useAdultsContent: Boolean,
         @Query("language") language: String
     ): Call<MoviesListDTO>
 }
@@ -28,6 +30,7 @@ interface MoviesListNowPlayingAPI : MoviesListAPI {
     override fun getMoviesList(
         @Query("api_key") token: String,
         @Query("page") pageNumber: Int,
+        @Query("include_adult") useAdultsContent: Boolean,
         @Query("language") language: String
     ): Call<MoviesListDTO>
 }
@@ -37,6 +40,7 @@ interface MoviesListPopularAPI: MoviesListAPI {
     override fun getMoviesList(
         @Query("api_key") token: String,
         @Query("page") pageNumber: Int,
+        @Query("include_adult") useAdultsContent: Boolean,
         @Query("language") language: String
     ): Call<MoviesListDTO>
 }
@@ -46,6 +50,7 @@ interface MoviesListTopRatedAPI: MoviesListAPI {
     override fun getMoviesList (
         @Query("api_key") token: String,
         @Query("page") pageNumber: Int,
+        @Query("include_adult") useAdultsContent: Boolean,
         @Query("language") language: String
     ): Call<MoviesListDTO>
 }
@@ -55,6 +60,7 @@ interface MoviesListUpcomingAPI: MoviesListAPI {
     override fun getMoviesList(
         @Query("api_key") token: String,
         @Query("page") pageNumber: Int,
+        @Query("include_adult") useAdultsContent: Boolean,
         @Query("language") language: String
     ): Call<MoviesListDTO>
 }

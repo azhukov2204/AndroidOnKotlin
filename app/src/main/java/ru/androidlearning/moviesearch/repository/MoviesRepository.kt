@@ -3,11 +3,13 @@ package ru.androidlearning.moviesearch.repository
 import retrofit2.Callback
 import ru.androidlearning.moviesearch.model.Movie
 import ru.androidlearning.moviesearch.model.MovieDetailsDTO
+import ru.androidlearning.moviesearch.repository.db.MovieEntity
 
 interface MoviesRepository {
     fun getMoviesListFromServer(
-        moviesListLoaderListener: MoviesListLoaderListener,
+        moviesListWebLoaderListener: MoviesListWebLoaderListener,
         language: String,
+        useAdultsContent: Boolean,
         pageNumber: Int = 1
     )
 
@@ -18,13 +20,25 @@ interface MoviesRepository {
     )
 
     fun searchMovies(
-        moviesListLoaderListener: MoviesListLoaderListener,
+        moviesListWebLoaderListener: MoviesListWebLoaderListener,
         query: String,
-        language: String
+        language: String,
+        useAdultsContent: Boolean
     )
 
-    interface MoviesListLoaderListener {
+    interface MoviesListWebLoaderListener {
         fun onSuccess(moviesList: List<Movie>)
         fun onFailed(throwable: Throwable)
     }
+
+    interface MoviesListDBLoaderListener {
+        fun onSuccess(moviesList: List<MovieEntity>)
+        fun onFailed(throwable: Throwable)
+    }
+
+    fun getAllMoviesFromDB(moviesListDBLoaderListener: MoviesListDBLoaderListener)
+
+    fun saveMovieToDB(movieEntity: MovieEntity)
+
+    fun clearMoviesHistoryInDB()
 }

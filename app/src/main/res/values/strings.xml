@@ -16,4 +16,12 @@
     <string name="language">en</string>
     <string name="mediaTitle">Media</string>
     <string name="search">search</string>
+    <string name="movies_search_nav_button_text">Movies search</string>
+    <string name="adults_content">Adults content</string>
+    <string name="with_adults">With adults</string>
+    <string name="no_adults">No adults</string>
+    <string name="for_adults_warning">For adults!</string>
+    <string name="viewed">Viewed: </string>
+    <string name="movies_history_nav_button_text">Movies history</string>
+    <string name="clear_history">Clear history</string>
 </resources>

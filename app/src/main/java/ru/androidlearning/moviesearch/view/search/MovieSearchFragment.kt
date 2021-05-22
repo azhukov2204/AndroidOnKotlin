@@ -20,6 +20,9 @@ import ru.androidlearning.moviesearch.view.details.MovieDetailFragment
 import ru.androidlearning.moviesearch.viewmodel.MovieSearchViewModel
 import ru.androidlearning.moviesearch.viewmodel.MoviesListLoadState
 
+private const val USE_ADULTS_CONTENT_KEY = "useAdultsContent"
+private const val SHARED_PREFERENCES_KEY = "useAdultsContentSharedPref"
+
 class MovieSearchFragment : Fragment() {
     private var _binding: MoviesSearchFragmentBinding? = null
     private val movieSearchFragmentBinding get() = _binding!!
@@ -27,6 +30,7 @@ class MovieSearchFragment : Fragment() {
     private val moviesSearchViewModel: MovieSearchViewModel by lazy {
         ViewModelProvider(this).get(MovieSearchViewModel::class.java)
     }
+    private var useAdultsContent: Boolean = false
     private val moviesListsFragmentAdapter = MoviesListsFragmentAdapter()
     private val moviesSearchFragmentAdapter = MoviesSearchFragmentAdapter()
 
@@ -36,7 +40,7 @@ class MovieSearchFragment : Fragment() {
                 activity?.supportFragmentManager?.let {
                     val bundle = Bundle().apply { putParcelable(Movie.MOVIE_BUNDLE_KEY, movie) }
                     it.beginTransaction()
-                        .add(R.id.container, MovieDetailFragment.newInstance(bundle))
+                        .replace(R.id.container, MovieDetailFragment.newInstance(bundle))
                         .addToBackStack(null)
                         .commitAllowingStateLoss()
                 }
@@ -89,16 +93,18 @@ class MovieSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        readUseAdultsContentOption()
         moviesListsFragmentAdapter.setOnClickListener(onMovieItemClickListener)
         moviesSearchFragmentAdapter.setOnClickListener(onMovieItemClickListener)
         movieSearchFragmentBinding.moviesListRecyclerView.adapter = moviesListsFragmentAdapter
         movieSearchFragmentBinding.movieSearchResultsRecyclerView.adapter =
             moviesSearchFragmentAdapter
-
         moviesSearchViewModel.run {
             getMovieDetailsLiveData().observe(viewLifecycleOwner, { renderDataMoviesList(it) })
             getMoviesSearchLiveData().observe(viewLifecycleOwner, { renderDataMoviesSearch(it) })
-            getMoviesFromServer(getString(R.string.language))
+            if (savedInstanceState == null) {  //чтоб каждый раз при смене ориентации не запрашивать данные с сервера
+                getMoviesFromServer(getString(R.string.language), useAdultsContent)
+            }
         }
     }
 
@@ -138,14 +144,18 @@ class MovieSearchFragment : Fragment() {
                 message,
                 Snackbar.LENGTH_INDEFINITE,
                 getString(R.string.tryToReloadButtonText)
-            ) { moviesSearchViewModel.getMoviesFromServer(getString(R.string.language)) }
+            ) {
+                moviesSearchViewModel.getMoviesFromServer(
+                    getString(R.string.language),
+                    useAdultsContent
+                )
+            }
         }
     }
 
     private fun onSuccessListLoading(movies: List<Movie>) {
         movieSearchFragmentBinding.movieSearchFragmentLoadingLayout.visibility = View.GONE
         moviesListsFragmentAdapter.setMoviesList(movies)
-        movieSearchFragmentBinding.movieSearchFragmentMainLayout.showSnackBar(R.string.loadingCompletedSuccessfullyText)
     }
 
     override fun onDestroyView() {
@@ -174,18 +184,46 @@ class MovieSearchFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.movies_search_menu, menu)
-        val searchMenu = menu.findItem(R.id.action_search).actionView as SearchView
-        searchMenu.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                startMoviesSearching(query)
-                return true
-            }
+        (menu.findItem(R.id.action_search).actionView as SearchView).setOnQueryTextListener(
+            searchMoviesListener
+        )
+        if (useAdultsContent) {
+            menu.findItem(R.id.with_adults).isChecked = true
+        } else {
+            menu.findItem(R.id.no_adults).isChecked = true
+        }
+    }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                startMoviesSearching(newText)
-                return true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.with_adults -> {
+                item.isChecked = !item.isChecked
+                useAdultsContent = true
+                saveUseAdultsContentOption()
+                true
             }
-        })
+            R.id.no_adults -> {
+                item.isChecked = !item.isChecked
+                useAdultsContent = false
+                saveUseAdultsContentOption()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+    private val searchMoviesListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            startMoviesSearching(query)
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            startMoviesSearching(newText)
+            return true
+        }
     }
 
     private fun startMoviesSearching(movieSearchString: String?) {
@@ -193,7 +231,24 @@ class MovieSearchFragment : Fragment() {
             movieSearchFragmentBinding.movieSearchFragmentSearchResults.visibility = View.GONE
         } else {
             movieSearchFragmentBinding.movieSearchFragmentSearchResults.visibility = View.VISIBLE
-            moviesSearchViewModel.searchMovies(movieSearchString, getString(R.string.language))
+            moviesSearchViewModel.searchMovies(
+                movieSearchString,
+                getString(R.string.language),
+                useAdultsContent
+            )
+        }
+    }
+
+    private fun saveUseAdultsContentOption() {
+        activity?.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)?.edit()
+            ?.putBoolean(USE_ADULTS_CONTENT_KEY, useAdultsContent)?.apply()
+    }
+
+    private fun readUseAdultsContentOption() {
+        activity?.also {
+            useAdultsContent =
+                it.getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+                    .getBoolean(USE_ADULTS_CONTENT_KEY, false)
         }
     }
 }

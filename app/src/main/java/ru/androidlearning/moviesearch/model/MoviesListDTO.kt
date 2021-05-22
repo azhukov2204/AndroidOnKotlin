@@ -3,10 +3,10 @@ package ru.androidlearning.moviesearch.model
 import com.google.gson.annotations.SerializedName
 
 data class MoviesListDTO(
-    val results: List<MovieListItemDTO>?
+    val results: List<MovieDTO>?
 )
 
-data class MovieListItemDTO(
+data class MovieDTO(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("title")
@@ -20,5 +20,7 @@ data class MovieListItemDTO(
     @SerializedName("genre_ids")
     val genre_ids: List<Int>?,
     @SerializedName("overview")
-    val overview: String?
+    val overview: String?,
+    @SerializedName("adult")
+    val isAdult: Boolean?
 )

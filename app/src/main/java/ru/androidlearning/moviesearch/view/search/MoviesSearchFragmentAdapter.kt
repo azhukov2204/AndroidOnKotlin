@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.model.Movie
 
-
 class MoviesSearchFragmentAdapter :
     RecyclerView.Adapter<MoviesSearchFragmentAdapter.MoviesSearchFragmentHolder>() {
     private var moviesList = listOf<Movie>()
@@ -53,6 +52,12 @@ class MoviesSearchFragmentAdapter :
             movieRatingView.text = movie.rating.toString()
             Picasso.get().load("$POSTERS_BASE_URL${movie.posterUri}")
                 .into(findViewById<AppCompatImageView>(R.id.movePoster))
+            val forAdultTextView = findViewById<TextView>(R.id.for_adult)
+            if (movie.isAdult == true) {
+                forAdultTextView.visibility = View.VISIBLE
+            } else {
+                forAdultTextView.visibility = View.GONE
+            }
             setOnClickListener { onMovieItemClickListener?.onMovieItemClick(movie) }
             movieRatingView.setTextColor(
                 when {

@@ -8,11 +8,13 @@ import ru.androidlearning.moviesearch.repository.MoviesRepository
 import ru.androidlearning.moviesearch.repository.MoviesRepositoryImpl
 import retrofit2.Callback
 import retrofit2.Response
+import ru.androidlearning.moviesearch.repository.db.MovieEntity
 
 const val ERROR_CORRUPT_DATA = "Corrupt data"
 
-class MovieDetailsViewModel(private val movieDetailsLiveData: MutableLiveData<MovieDetailsLoadState> = MutableLiveData()) :
-    ViewModel() {
+class MovieDetailsViewModel(
+    private val movieDetailsLiveData: MutableLiveData<MovieDetailsLoadState> = MutableLiveData(),
+) : ViewModel() {
     private val moviesRepository: MoviesRepository = MoviesRepositoryImpl()
     private val callback: Callback<MovieDetailsDTO> = object : Callback<MovieDetailsDTO> {
         override fun onResponse(
@@ -40,4 +42,8 @@ class MovieDetailsViewModel(private val movieDetailsLiveData: MutableLiveData<Mo
     }
 
     fun getMovieDetailsLiveData() = movieDetailsLiveData
+
+    fun saveMovieToDB(movieEntity: MovieEntity) {
+        moviesRepository.saveMovieToDB(movieEntity)
+    }
 }

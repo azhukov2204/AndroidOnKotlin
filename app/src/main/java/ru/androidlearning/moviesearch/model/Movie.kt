@@ -13,7 +13,8 @@ data class Movie(
     val genre: String?,
     var durationInMinutes: Int?,
     val description: String?,
-    val category: String
+    val category: String,
+    val isAdult: Boolean?
 ) : Parcelable {
     companion object {
         const val MOVIE_BUNDLE_KEY = "Movie"

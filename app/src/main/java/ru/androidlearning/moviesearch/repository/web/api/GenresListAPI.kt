@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.repository.api
+package ru.androidlearning.moviesearch.repository.web.api
 
 import retrofit2.Call
 import retrofit2.http.GET

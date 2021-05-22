@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.repository.api
+package ru.androidlearning.moviesearch.repository.web.api
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -10,6 +10,7 @@ interface MoviesSearchAPI {
     fun getMoviesList(
         @Query("api_key") token: String,
         @Query("query") query: String,
-        @Query("language") language: String
+        @Query("language") language: String,
+        @Query("include_adult") useAdultsContent: Boolean
     ): Call<MoviesListDTO>
 }
