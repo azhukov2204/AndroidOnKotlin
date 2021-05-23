@@ -22,6 +22,13 @@
     <string name="no_adults">No adults</string>
     <string name="for_adults_warning">For adults!</string>
     <string name="viewed">Viewed: </string>
-    <string name="movies_history_nav_button_text">Movies history</string>
+    <string name="movies_history_nav_button_text">Movie viewing history </string>
     <string name="clear_history">Clear history</string>
+    <string name="your_note_title">Your note:</string>
+    <string name="favorite">Favorite:</string>
+    <string name="favorite_movies_text">Favorite movies</string>
+    <string name="movieListsFragmentTitle">Movies Lists and Search</string>
+    <string name="movieHistoryFragmentTitle">Movies History</string>
+    <string name="moviesFavoriteFragmentTitle">Favorite Movies</string>
+    <string name="movieDetailsFragmentTitle">Movie details</string>
 </resources>

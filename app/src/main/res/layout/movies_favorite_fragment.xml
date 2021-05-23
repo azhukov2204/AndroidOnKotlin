@@ -2,12 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movieSearchFragmentMainLayout"
+    android:id="@+id/movieFavoriteFragmentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:theme="@style/textCommonStyle"
-    tools:context=".ui.history.MoviesHistoryFragment">
+    tools:context=".ui.favorite.MoviesFavoriteFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/moviesHistoryRecyclerView"
+                android:id="@+id/moviesFavoriteRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -30,7 +30,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <FrameLayout
-        android:id="@+id/movieSearchFragmentLoadingLayout"
+        android:id="@+id/movieFavoriteFragmentLoadingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"

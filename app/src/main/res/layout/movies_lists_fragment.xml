@@ -5,9 +5,7 @@
     android:id="@+id/movieSearchFragmentMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:theme="@style/textCommonStyle"
-    tools:context=".ui.history.MoviesHistoryFragment">
+    tools:context=".ui.search.MoviesListsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -19,15 +17,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMarginValue"
+                android:paddingStart="@dimen/defaultPaddingValue"
+                android:paddingEnd="@dimen/defaultPaddingValue"
+                android:text="@string/mediaTitle"
+                android:textColor="@color/black"
+                android:textSize="@dimen/mediaTitleTextSize"
+                android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/moviesHistoryRecyclerView"
+                android:id="@+id/moviesListRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/movie_history_item" />
+                tools:listitem="@layout/movies_horizontal_list_item" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/movieSearchFragmentSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movieSearchResultsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/movie_vertical_item" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/movieSearchFragmentLoadingLayout"
