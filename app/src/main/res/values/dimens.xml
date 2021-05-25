@@ -2,4 +2,6 @@
 <resources>
     <dimen name="defaultMarginValue">4dp</dimen>
     <dimen name="defaultPaddingValue">2dp</dimen>
+    <dimen name="mediaTitleTextSize">40sp</dimen>
+    <dimen name="moviesHorizontalListTextSize">35sp</dimen>
 </resources>

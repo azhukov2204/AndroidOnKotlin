@@ -1,105 +1,21 @@
 package ru.androidlearning.moviesearch.model
 
-import android.net.Uri
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-import ru.androidlearning.moviesearch.common_functions.getDateFromString
-import java.util.*
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Movie(
-    val id: Int? = 0,  //вероятно в будущем это свойство пригодится
-    val title: String? = "Криминальное чтиво",
-    val releaseDate: Date? = getDateFromString("1995-12-27"),
-    val rating: Double? = 80.0,
-    val posterUri: Uri? = null,
-    val genre: String? = "Триллер/криминал",
-    var durationInMinutes: Int? = 154,
-    val description: String? = "Двое бандитов Винсент Вега и Джулс Винфилд проводят время в философских беседах " +
-            "в перерыве между разборками и «решением проблем» с должниками своего криминального босса " +
-            "Марселласа Уоллеса. Параллельно разворачивается три истории. В первой из них Винсент присматривает " +
-            "за женой Марселласа Мией и спасает ее от передозировки наркотиков. Во второй рассказывается о Бутче Кулидже," +
-            " боксере, нанятом Уоллесом, чтобы сдать бой, но обманувшим его.",
-    val category: String = "popular" //возможно потом заменю на enum или sealed class
+    val id: Int? = 0,
+    val title: String?,
+    val releaseDate: String?,
+    val rating: Double?,
+    val posterUri: String? = null,
+    val genre: String?,
+    var durationInMinutes: Int?,
+    val description: String?,
+    val category: String
 ) : Parcelable {
     companion object {
         const val MOVIE_BUNDLE_KEY = "Movie"
     }
 }
-
-fun getMovies() = listOf(
-    Movie(
-        0,
-        "Криминальное чтиво", getDateFromString("1995-12-27"), 80.0, null, "Триллер/криминал", 154,
-        "Двое бандитов Винсент Вега и Джулс Винфилд проводят время в философских беседах " +
-                "в перерыве между разборками и «решением проблем» с должниками своего криминального босса " +
-                "Марселласа Уоллеса. Параллельно разворачивается три истории. В первой из них Винсент присматривает " +
-                "за женой Марселласа Мией и спасает ее от передозировки наркотиков. Во второй рассказывается о Бутче Кулидже," +
-                " боксере, нанятом Уоллесом, чтобы сдать бой, но обманувшим его.", "top100"
-    ),
-
-    Movie(
-        0,
-        "Шрек 2",
-        getDateFromString("2004-08-19"),
-        71.0,
-        null,
-        "Мультфильм, семейный, комедия, фэнтези, приключения",
-        93,
-        "Шрэк и Фиона возвращаются после медового месяца и находят письмо от родителей Фионы с приглашением на ужин. " +
-                "Однако те не подозревают, что их дочь тоже стала огром! Вместе с Осликом счастливая пара отправляется в путешествие, " +
-                "полное неожиданностей, и попадает в круговорот событий, во время которых приобретает множество друзей…",
-        "popular"
-    ),
-
-    Movie(
-        0,
-        "Сумерки",
-        getDateFromString("2008-11-20"),
-        63.0,
-        null,
-        "фэнтези, драма, мелодрама",
-        122,
-        "Семнадцатилетняя девушка Белла переезжает к отцу в небольшой городок Форкс. Она влюбляется в загадочного одноклассника, " +
-                "который, как оказалось, происходит из семьи вампиров, отказавшихся от нападений на людей. Влюбиться в вампира. " +
-                "Это страшно? Это романтично, это прекрасно и мучительно, но это не может кончиться добром, особенно в вечном противостоянии " +
-                "вампирских кланов, где малейшее отличие от окружающих уже превращает вас во врага.",
-        "popular"
-    ),
-
-    Movie(
-        0,
-        "Film1", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
-        "Film description", "top100"
-    ),
-
-    Movie(
-        0,
-        "Film2", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
-        "Film2 description", "top100"
-    ),
-
-    Movie(
-        0,
-        "Film3", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
-        "Film3 description", "top100"
-    ),
-
-    Movie(
-        0,
-        "Film1", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
-        "Film description", "top200"
-    ),
-
-    Movie(
-        0,
-        "Film2", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
-        "Film2 description", "top200"
-    ),
-
-    Movie(
-        0,
-        "Film3", getDateFromString("2008-01-01"), 90.0, null, "drama", 80,
-        "Film3 description", "top200"
-    )
-)

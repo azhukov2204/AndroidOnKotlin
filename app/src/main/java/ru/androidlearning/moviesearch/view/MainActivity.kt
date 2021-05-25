@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.AppBarMainBinding
+import ru.androidlearning.moviesearch.view.search.MovieSearchFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarMainBinding: AppBarMainBinding

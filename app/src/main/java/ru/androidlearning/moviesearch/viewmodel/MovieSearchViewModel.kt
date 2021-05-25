@@ -3,41 +3,47 @@ package ru.androidlearning.moviesearch.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.androidlearning.moviesearch.model.*
-import java.lang.Thread.sleep
-import java.util.*
-
-const val sleepTimeInMills: Long = 10000
+import ru.androidlearning.moviesearch.repository.*
 
 class MovieSearchViewModel(
-    private val moviesLiveData: MutableLiveData<AppState> = MutableLiveData(),
-    private val movieRepository: MovieRepository = MovieRepositoryImpl()
+    private val moviesListsLiveData: MutableLiveData<MoviesListLoadState> = MutableLiveData(),
+    private val moviesSearchLiveData: MutableLiveData<MoviesListLoadState> = MutableLiveData()
 ) : ViewModel() {
 
-    private val random = Random()
+    private val moviesRepository: MoviesRepository = MoviesRepositoryImpl()
+    private val moviesListLoaderListener: MoviesRepository.MoviesListLoaderListener = object :
+        MoviesRepository.MoviesListLoaderListener {
+        override fun onSuccess(moviesList: List<Movie>) {
+            moviesListsLiveData.postValue(MoviesListLoadState.Success(moviesList))
+        }
 
-    fun getMoviesFromLocalSource() {
-        moviesLiveData.value = AppState.Loading
-        Thread {
-            sleep(sleepTimeInMills)
-            moviesLiveData.postValue(
-                if (random.nextInt(2) == 0) AppState.Success(movieRepository.getMoviesFromLocalStorage())
-                else AppState.Error(Throwable("Error of movies list load"))
-            )
-        }.start()
+        override fun onFailed(throwable: Throwable) {
+            moviesListsLiveData.postValue(MoviesListLoadState.Error(throwable))
+        }
     }
 
-    fun getMoviesFromServer() {
-        moviesLiveData.value = AppState.Loading
-        movieRepository.getMoviesFromServer(object : MoviesListLoader.MoviesListLoaderListener {
-            override fun onSuccess(moviesList: List<Movie>) {
-                moviesLiveData.postValue(AppState.Success(moviesList))
-            }
+    private val moviesSearchListener: MoviesRepository.MoviesListLoaderListener = object :
+        MoviesRepository.MoviesListLoaderListener {
+        override fun onSuccess(moviesList: List<Movie>) {
+            moviesSearchLiveData.postValue(MoviesListLoadState.Success(moviesList))
+        }
 
-            override fun onFailed(throwable: Throwable) {
-                moviesLiveData.postValue(AppState.Error(throwable))
-            }
-        })
+        override fun onFailed(throwable: Throwable) {
+            moviesSearchLiveData.postValue(MoviesListLoadState.Error(throwable))
+        }
     }
 
-    fun getMovieDetailsLiveData() = moviesLiveData
+    fun getMoviesFromServer(language: String) {
+        moviesListsLiveData.value = MoviesListLoadState.Loading
+        moviesRepository.getMoviesListFromServer(moviesListLoaderListener, language)
+    }
+
+    fun searchMovies(query: String, language: String) {
+        moviesSearchLiveData.value = MoviesListLoadState.Loading
+        moviesRepository.searchMovies(moviesSearchListener, query, language)
+    }
+
+    fun getMovieDetailsLiveData() = moviesListsLiveData
+
+    fun getMoviesSearchLiveData() = moviesSearchLiveData
 }

@@ -13,4 +13,7 @@
     <string name="openMovieDetailsButtonText">Open movie details</string>
     <string name="dialogOKButtonText">OK</string>
     <string name="connectionErrorDialogText">Connection error, please, check connection settings</string>
+    <string name="language">en</string>
+    <string name="mediaTitle">Media</string>
+    <string name="search">search</string>
 </resources>
