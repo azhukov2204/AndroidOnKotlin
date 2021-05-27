@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:theme="@style/textCommonStyle"
-    tools:context=".view.details.MovieDetailFragment">
+    tools:context=".ui.details.MovieDetailFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,14 +21,14 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/movie_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/defaultMarginValue"
                 android:layout_marginTop="@dimen/defaultMarginValue"
                 android:layout_marginEnd="@dimen/defaultMarginValue"
                 android:textSize="35sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/favorite"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,6 +86,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/movie_duration" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/for_adult"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMarginValue"
+                android:layout_marginTop="@dimen/defaultMarginValue"
+                android:text="@string/for_adults_warning"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintTop_toBottomOf="@+id/movie_release_date"
+                tools:visibility="visible" />
+
+            <CheckBox
+                android:id="@+id/favorite"
+                style="?android:attr/starStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/movie_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,11 +115,41 @@
                 android:layout_marginTop="@dimen/defaultMarginValue"
                 android:layout_marginEnd="@dimen/defaultMarginValue"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movePoster" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMarginValue"
+                android:layout_marginTop="@dimen/defaultMarginValue"
+                android:layout_marginEnd="@dimen/defaultMarginValue"
+                android:paddingStart="@dimen/defaultPaddingValue"
+                android:paddingTop="@dimen/defaultPaddingValue"
+                android:paddingEnd="@dimen/defaultPaddingValue"
+                android:text="@string/your_note_title"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movie_description" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/movie_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMarginValue"
+                android:layout_marginTop="@dimen/defaultMarginValue"
+                android:layout_marginEnd="@dimen/defaultMarginValue"
+                android:textColor="@color/dark_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/note_title"
+                tools:text="text example" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
     <FrameLayout
         android:id="@+id/movieDetailFragmentLoadingLayout"
         android:layout_width="match_parent"

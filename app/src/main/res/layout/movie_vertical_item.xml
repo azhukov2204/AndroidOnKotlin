@@ -59,6 +59,20 @@
             tools:text="movie genres" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/for_adult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/defaultMarginValue"
+            android:layout_marginTop="@dimen/defaultMarginValue"
+            android:paddingStart="@dimen/defaultPaddingValue"
+            android:paddingEnd="@dimen/defaultPaddingValue"
+            android:text="@string/for_adults_warning"
+            android:background="@color/red"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/movePoster"
+            app:layout_constraintTop_toBottomOf="@+id/movie_genre" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/movie_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
