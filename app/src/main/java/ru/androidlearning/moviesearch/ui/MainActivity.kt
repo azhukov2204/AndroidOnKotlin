@@ -9,6 +9,7 @@ import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MainActivityBinding
 import ru.androidlearning.moviesearch.ui.favorite.MoviesFavoriteFragment
 import ru.androidlearning.moviesearch.ui.history.MoviesHistoryFragment
+import ru.androidlearning.moviesearch.ui.phones_book.PhoneBookFragment
 import ru.androidlearning.moviesearch.ui.search.MoviesListsFragment
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.movieFavoriteFragment -> {
                     openFragment(MoviesFavoriteFragment.newInstance(), getString(R.string.moviesFavoriteFragmentTitle))
+                    true
+                }
+                R.id.phonesBookFragment -> {
+                    openFragment(PhoneBookFragment.newInstance(), getString(R.string.phoneBookFragmentTitle))
                     true
                 }
 

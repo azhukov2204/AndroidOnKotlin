@@ -31,4 +31,14 @@
     <string name="movieHistoryFragmentTitle">Movies History</string>
     <string name="moviesFavoriteFragmentTitle">Favorite Movies</string>
     <string name="movieDetailsFragmentTitle">Movie details</string>
+    <string name="phones_book_text">Phones book</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="phoneBookFragmentTitle">Phone book</string>
+    <string name="access_to_contacts_title">Access to contacts</string>
+    <string name="grant_access_button_text">Grant access</string>
+    <string name="explanation_of_contacts_permission">To work in this window you need permission access to contacts. Grant permission in phone settings</string>
+    <string name="close_button_text">Close</string>
+    <string name="negative_button_text">Do not</string>
+    <string name="phone_access_permission_title">Phone access permission</string>
+    <string name="explanation_of_phone_permission">You need to get permission to the phone access. Grant permission in phone settings</string>
 </resources>

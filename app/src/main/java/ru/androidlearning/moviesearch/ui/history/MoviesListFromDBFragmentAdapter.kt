@@ -15,15 +15,34 @@ import ru.androidlearning.moviesearch.utils.mapMovieEntityToMovie
 
 class MoviesListFromDBFragmentAdapter : RecyclerView.Adapter<MoviesListFromDBFragmentAdapter.MoviesListFromDBFragmentHolder>() {
     private var movieEntitiesList: List<MovieEntity> = listOf()
+    private var filteredMovieEntitiesList: List<MovieEntity> = listOf()
     private var onMovieItemClickListener: MoviesListsFragmentAdapter.OnMovieItemClickListener? = null
 
     fun setDataSortByViewedDate(movieEntitiesList: List<MovieEntity>) {
         this.movieEntitiesList = movieEntitiesList.sortedByDescending { it.viewedDate }
+        filteredMovieEntitiesList = this.movieEntitiesList
         notifyDataSetChanged()
     }
 
     fun setDataSortByMovieID(movieEntitiesList: List<MovieEntity>) {
         this.movieEntitiesList = movieEntitiesList.sortedBy { it.id }
+        filteredMovieEntitiesList = this.movieEntitiesList
+        notifyDataSetChanged()
+    }
+
+    fun applyFilter(query: String?) {
+        filteredMovieEntitiesList = if (!query.isNullOrBlank()) {
+            println(query)
+            movieEntitiesList.filter {
+                (it.title?.lowercase()?.contains(query.lowercase()) == true) ||
+                        (it.genre?.lowercase()?.contains(query.lowercase()) == true) ||
+                        (it.releaseDate?.lowercase()?.contains(query.lowercase()) == true) ||
+                        (it.description?.lowercase()?.contains(query.lowercase()) == true) ||
+                        (it.note?.lowercase()?.contains(query.lowercase()) == true)
+            }
+        } else {
+            movieEntitiesList
+        }
         notifyDataSetChanged()
     }
 
@@ -34,11 +53,11 @@ class MoviesListFromDBFragmentAdapter : RecyclerView.Adapter<MoviesListFromDBFra
     }
 
     override fun onBindViewHolder(holder: MoviesListFromDBFragmentHolder, position: Int) {
-        holder.bind(movieEntitiesList[position])
+        holder.bind(filteredMovieEntitiesList[position])
     }
 
     override fun getItemCount(): Int {
-        return movieEntitiesList.size
+        return filteredMovieEntitiesList.size
     }
 
     fun setOnClickListener(onMovieItemClickListener: MoviesListsFragmentAdapter.OnMovieItemClickListener) {

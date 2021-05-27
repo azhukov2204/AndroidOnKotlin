@@ -18,4 +18,10 @@
         android:orderInCategory="30"
         android:title="@string/favorite_movies_text" />
 
+    <item
+        android:id="@+id/phonesBookFragment"
+        android:icon="@drawable/ic_phones_book"
+        android:orderInCategory="40"
+        android:title="@string/phones_book_text" />
+
 </menu>
