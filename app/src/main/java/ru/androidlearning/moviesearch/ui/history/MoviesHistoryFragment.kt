@@ -3,6 +3,7 @@ package ru.androidlearning.moviesearch.ui.history
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ru.androidlearning.moviesearch.R
@@ -100,6 +101,21 @@ class MoviesHistoryFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.movies_history_menu, menu)
+        (menu.findItem(R.id.action_search).actionView as SearchView).setOnQueryTextListener(
+            searchMoviesListener
+        )
+    }
+
+    private val searchMoviesListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            movieHistoryFragmentAdapter.applyFilter(query)
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            movieHistoryFragmentAdapter.applyFilter(newText)
+            return true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
