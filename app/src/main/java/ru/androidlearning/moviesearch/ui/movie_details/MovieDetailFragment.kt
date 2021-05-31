@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.ui.details
+package ru.androidlearning.moviesearch.ui.movie_details
 
 import android.content.Context
 import android.os.Bundle
@@ -16,9 +16,11 @@ import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MovieDetailFragmentBinding
 import ru.androidlearning.moviesearch.model.*
 import ru.androidlearning.moviesearch.model.db.MovieEntity
+import ru.androidlearning.moviesearch.model.web.ActorItem
 import ru.androidlearning.moviesearch.model.web.MovieDetailsDTO
 import ru.androidlearning.moviesearch.utils.getStringFromDate
 import ru.androidlearning.moviesearch.ui.MainActivity
+import ru.androidlearning.moviesearch.ui.actor_details.ActorDetailsFragment
 import java.util.*
 
 const val ERROR_LOADING_DETAILS_MESSAGE = "Error loading data"
@@ -38,6 +40,8 @@ class MovieDetailFragment : Fragment() {
         ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
     }
 
+    private val actorsRecyclerViewAdapter = ActorsRecyclerViewAdapter()
+
     private val onNoteTextChangedListener = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
@@ -53,6 +57,18 @@ class MovieDetailFragment : Fragment() {
     private val onFavoriteCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
         movie?.id?.let { movieDetailsViewModel.saveFavoriteValueToDB(it, isChecked) }
 
+    }
+
+    private val onActorClickListener = object : ActorsRecyclerViewAdapter.OnActorClickListener {
+        override fun onClick(actor: ActorItem) {
+            activity?.supportFragmentManager?.let {
+                val bundle = Bundle().apply { putParcelable(ActorItem.ACTOR_BUNDLE_KEY, actor) }
+                it.beginTransaction()
+                    .replace(R.id.container, ActorDetailsFragment.newInstance(bundle))
+                    .addToBackStack(null)
+                    .commitAllowingStateLoss()
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -73,12 +89,15 @@ class MovieDetailFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        actorsRecyclerViewAdapter.removeListener()
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        movieDetailFragmentBinding.actorsRecyclerView.adapter = actorsRecyclerViewAdapter
+        actorsRecyclerViewAdapter.setOnClickListener(onActorClickListener)
         movie = arguments?.getParcelable(Movie.MOVIE_BUNDLE_KEY)
         movie?.id?.let { movieId ->
             movieDetailsViewModel.run {
@@ -119,6 +138,7 @@ class MovieDetailFragment : Fragment() {
     private fun onSuccessAction(movieDetailsDTO: MovieDetailsDTO) {
         movie?.durationInMinutes = movieDetailsDTO.runtime
         movie?.let { setData(it) }
+        movieDetailsDTO.credits?.actors?.let { actorsRecyclerViewAdapter.setData(it) }
     }
 
     private fun setData(movie: Movie) {
@@ -148,7 +168,7 @@ class MovieDetailFragment : Fragment() {
             } else {
                 forAdult.visibility = View.GONE
             }
-            Picasso.get().load("$POSTERS_BASE_URL${movie.posterUri}").into(movePoster)
+            Picasso.get().load("$POSTERS_BASE_URL${movie.posterUri}").into(moviePoster)
             movie.id?.let { movieDetailsViewModel.getAdditionalMovieInfoFromDB(it) }
         }
     }

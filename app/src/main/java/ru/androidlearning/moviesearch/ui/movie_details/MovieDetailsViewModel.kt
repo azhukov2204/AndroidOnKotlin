@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.ui.details
+package ru.androidlearning.moviesearch.ui.movie_details
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

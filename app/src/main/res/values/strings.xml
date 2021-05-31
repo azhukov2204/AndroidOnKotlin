@@ -35,10 +35,21 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="phoneBookFragmentTitle">Phone book</string>
     <string name="access_to_contacts_title">Access to contacts</string>
+    <string name="access_to_fine_location_title">Access to fine location</string>
     <string name="grant_access_button_text">Grant access</string>
     <string name="explanation_of_contacts_permission">To work in this window you need permission access to contacts. Grant permission in phone settings</string>
+    <string name="explanation_of_fine_location_permission">To work in this window you need permission access to fine location. Grant permission in phone settings</string>
     <string name="close_button_text">Close</string>
     <string name="negative_button_text">Do not</string>
     <string name="phone_access_permission_title">Phone access permission</string>
     <string name="explanation_of_phone_permission">You need to get permission to the phone access. Grant permission in phone settings</string>
+    <string name="cinemas_map_text">Cinemas map</string>
+    <string name="access_to_fine_location_text">Access to fine location</string>
+    <string name="enter_search_string_hint">Enter search string</string>
+    <string name="find_button_text">Find</string>
+    <string name="actors_title">Actors:</string>
+    <string name="actorDetailsFragmentTitle">Actor details</string>
+    <string name="day_of_birth_title">Day of birth:</string>
+    <string name="date_and_place_of_birth_formatted">%s %s</string>
+    <string name="show_birth_place_on_the_map_text">Show birth place on the Map</string>
 </resources>

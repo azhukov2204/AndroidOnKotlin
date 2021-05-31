@@ -12,5 +12,6 @@ interface MovieDetailsAPI {
         @Url url: String,
         @Query("api_key") token: String,
         @Query("language") language: String,
+        @Query("append_to_response") actorsInfo: String = "credits"
     ): Call<MovieDetailsDTO>
 }

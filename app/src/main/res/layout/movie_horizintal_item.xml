@@ -21,7 +21,7 @@
         android:theme="@style/textCommonStyle">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/movePoster"
+            android:id="@+id/actorPhoto"
             android:layout_width="185dp"
             android:layout_height="250dp"
             android:layout_marginStart="@dimen/defaultMarginValue"
@@ -43,8 +43,8 @@
             android:paddingStart="@dimen/defaultPaddingValue"
             android:paddingEnd="@dimen/defaultPaddingValue"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/movePoster"
-            app:layout_constraintTop_toBottomOf="@+id/movePoster"
+            app:layout_constraintStart_toStartOf="@+id/actorPhoto"
+            app:layout_constraintTop_toBottomOf="@+id/actorPhoto"
             tools:text="movie name" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -57,7 +57,7 @@
             android:maxLines="2"
             android:paddingStart="@dimen/defaultPaddingValue"
             android:paddingEnd="@dimen/defaultPaddingValue"
-            app:layout_constraintStart_toStartOf="@+id/movePoster"
+            app:layout_constraintStart_toStartOf="@+id/actorPhoto"
             app:layout_constraintTop_toBottomOf="@+id/movie_name"
             tools:text="movie genres" />
 
@@ -72,7 +72,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/movePoster"
+            app:layout_constraintTop_toTopOf="@+id/actorPhoto"
             tools:text="rating" />
 
         <androidx.appcompat.widget.AppCompatTextView

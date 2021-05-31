@@ -66,7 +66,7 @@ class MoviesListsHorizontalAdapter(private val onMovieItemClickListener: MoviesL
                 forAdultTextView.visibility = View.GONE
             }
             Picasso.get().load("${POSTERS_BASE_URL}${movie.posterUri}")
-                .into(findViewById<AppCompatImageView>(R.id.movePoster))
+                .into(findViewById<AppCompatImageView>(R.id.actorPhoto))
             setOnClickListener { onMovieItemClickListener?.onMovieItemClick(movie) }
         }
     }

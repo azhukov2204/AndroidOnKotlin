@@ -209,3 +209,4 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/android,androidstudio,windows
 /apikey.properties
+/app/src/debug/res/values/google_maps_api.xml

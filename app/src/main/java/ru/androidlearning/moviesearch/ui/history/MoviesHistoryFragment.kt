@@ -11,7 +11,7 @@ import ru.androidlearning.moviesearch.databinding.MoviesHistoryFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
 import ru.androidlearning.moviesearch.model.db.MovieEntity
 import ru.androidlearning.moviesearch.ui.MainActivity
-import ru.androidlearning.moviesearch.ui.details.MovieDetailFragment
+import ru.androidlearning.moviesearch.ui.movie_details.MovieDetailFragment
 import ru.androidlearning.moviesearch.ui.search.MoviesListsFragmentAdapter
 import ru.androidlearning.moviesearch.utils.showSnackBar
 

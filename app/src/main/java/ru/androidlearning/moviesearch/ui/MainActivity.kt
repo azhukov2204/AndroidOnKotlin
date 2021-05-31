@@ -1,14 +1,16 @@
 package ru.androidlearning.moviesearch.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction.*
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.androidlearning.moviesearch.R
 import ru.androidlearning.moviesearch.databinding.MainActivityBinding
 import ru.androidlearning.moviesearch.ui.favorite.MoviesFavoriteFragment
 import ru.androidlearning.moviesearch.ui.history.MoviesHistoryFragment
+import ru.androidlearning.moviesearch.ui.maps.MapsFragment
 import ru.androidlearning.moviesearch.ui.phones_book.PhoneBookFragment
 import ru.androidlearning.moviesearch.ui.search.MoviesListsFragment
 
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mainActivityBinding.toolbar)
         val navView: BottomNavigationView = mainActivityBinding.navView
 
-        navView.setOnNavigationItemSelectedListener { it ->
+        navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.movieListsFragment -> {
                     openFragment(MoviesListsFragment.newInstance(), getString(R.string.movieListsFragmentTitle))
@@ -47,7 +49,10 @@ class MainActivity : AppCompatActivity() {
                     openFragment(PhoneBookFragment.newInstance(), getString(R.string.phoneBookFragmentTitle))
                     true
                 }
-
+                R.id.mapsFragment -> {
+                    openFragment(MapsFragment.newInstance())
+                    true
+                }
                 else -> {
                     false
                 }
@@ -56,11 +61,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun <T : Fragment> openFragment(fragmentInstance: T, title: String = getString(R.string.app_name)) {
+        clearBackStack()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragmentInstance)
             .setTransition(TRANSIT_FRAGMENT_FADE)
             .commitAllowingStateLoss()
         this.title = title
+    }
+
+    private fun clearBackStack() {
+        val fragmentManager = supportFragmentManager
+        if (fragmentManager.backStackEntryCount > 0) {
+            val entry = fragmentManager.getBackStackEntryAt(0)
+            fragmentManager.popBackStack(entry.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
     }
 
     fun showHomeButton() {

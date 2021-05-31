@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:theme="@style/textCommonStyle"
-    tools:context=".ui.details.MovieDetailFragment">
+    tools:context=".ui.movie_details.MovieDetailFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/movePoster"
+                android:id="@+id/movie_poster"
                 android:layout_width="168dp"
                 android:layout_height="236dp"
                 android:layout_marginStart="@dimen/defaultMarginValue"
@@ -49,8 +49,8 @@
                 android:layout_marginStart="@dimen/defaultMarginValue"
                 android:layout_marginEnd="@dimen/defaultMarginValue"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/movePoster"
-                app:layout_constraintTop_toTopOf="@+id/movePoster" />
+                app:layout_constraintStart_toEndOf="@+id/movie_poster"
+                app:layout_constraintTop_toTopOf="@+id/movie_poster" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/movie_rating"
@@ -60,7 +60,7 @@
                 android:layout_marginTop="@dimen/defaultMarginValue"
                 android:layout_marginEnd="@dimen/defaultMarginValue"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintStart_toEndOf="@+id/movie_poster"
                 app:layout_constraintTop_toBottomOf="@+id/movie_genre" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -71,7 +71,7 @@
                 android:layout_marginTop="@dimen/defaultMarginValue"
                 android:layout_marginEnd="@dimen/defaultMarginValue"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintStart_toEndOf="@+id/movie_poster"
                 app:layout_constraintTop_toBottomOf="@+id/movie_rating" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -82,7 +82,7 @@
                 android:layout_marginTop="@dimen/defaultMarginValue"
                 android:layout_marginEnd="@dimen/defaultMarginValue"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintStart_toEndOf="@+id/movie_poster"
                 app:layout_constraintTop_toBottomOf="@+id/movie_duration" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -94,7 +94,7 @@
                 android:text="@string/for_adults_warning"
                 android:textStyle="bold"
                 android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@+id/movePoster"
+                app:layout_constraintStart_toEndOf="@+id/movie_poster"
                 app:layout_constraintTop_toBottomOf="@+id/movie_release_date"
                 tools:visibility="visible" />
 
@@ -116,7 +116,32 @@
                 android:layout_marginEnd="@dimen/defaultMarginValue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movePoster" />
+                app:layout_constraintTop_toBottomOf="@+id/movie_poster" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/actorsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMarginValue"
+                android:layout_marginTop="@dimen/defaultMarginValue"
+                android:layout_marginEnd="@dimen/defaultMarginValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textStyle="bold"
+                android:text="@string/actors_title"
+                app:layout_constraintTop_toBottomOf="@+id/movie_description" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/actorsRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/actorsTitle"
+                tools:listitem="@layout/actor_item" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/note_title"
@@ -132,7 +157,7 @@
                 android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movie_description" />
+                app:layout_constraintTop_toBottomOf="@+id/actorsRecyclerView" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/movie_note"
