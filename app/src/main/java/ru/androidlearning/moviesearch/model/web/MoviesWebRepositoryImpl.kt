@@ -41,6 +41,10 @@ class MoviesWebRepositoryImpl(
         moviesRemoteWebDataSource.getMovieDetails(callback, movieId, language)
     }
 
+    override fun getActorDetailsFromServer(callback: Callback<ActorDetailsDTO>, actorId: Int, language: String) {
+        moviesRemoteWebDataSource.getActorDetails(callback, actorId, language)
+    }
+
     override fun searchMovies(
         moviesSearchLiveData: MutableLiveData<MoviesListsFromWebLoadState>,
         query: String,

@@ -13,6 +13,7 @@ import java.lang.Exception
 
 const val BASE_URL = "https://api.themoviedb.org/"
 const val BASE_MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/"
+const val BASE_PERSON_DETAILS_URL = "https://api.themoviedb.org/3/person/"
 const val ERROR_LOADING_GENRES = "Error with loading genres list"
 const val ERROR_LOADING_MOVIES_LIST = "Error with loading movies list"
 const val DEFAULT_PAGE_NUMBER = 1
@@ -28,6 +29,7 @@ private val moviesAPIClassesMap = mapOf(
 private val genresAPIClass = GenresListAPI::class.java
 private val movieDetailsAPIClass = MovieDetailsAPI::class.java
 private val movieSearchAPIClass = MoviesSearchAPI::class.java
+private val actorDetailsAPIClass = ActorDetailsAPI::class.java
 
 class MoviesRemoteWebDataSource {
     private lateinit var moviesListDTOMap: MutableMap<String, MoviesListDTO>
@@ -101,6 +103,15 @@ class MoviesRemoteWebDataSource {
         val urlWithMovieId = "$BASE_MOVIE_DETAILS_URL$movieId"
         buildAPI(movieDetailsAPIClass).getMovieDetails(
             urlWithMovieId,
+            BuildConfig.MOVIE_DB_API_KEY,
+            language,
+        ).enqueue(callback)
+    }
+
+    fun getActorDetails(callback: Callback<ActorDetailsDTO>, actorId: Int, language: String) {
+        val urlWithActorId = "$BASE_PERSON_DETAILS_URL$actorId"
+        buildAPI(actorDetailsAPIClass).getActorDetails(
+            urlWithActorId,
             BuildConfig.MOVIE_DB_API_KEY,
             language,
         ).enqueue(callback)

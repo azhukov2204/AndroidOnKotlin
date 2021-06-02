@@ -5,7 +5,7 @@ import android.os.HandlerThread
 import androidx.lifecycle.MutableLiveData
 import ru.androidlearning.moviesearch.app.App
 import ru.androidlearning.moviesearch.model.web.HANDLER_THREAD_NAME
-import ru.androidlearning.moviesearch.ui.details.MovieDetailsAdditionalDataFromDBLoadState
+import ru.androidlearning.moviesearch.ui.movie_details.MovieDetailsAdditionalDataFromDBLoadState
 import ru.androidlearning.moviesearch.ui.history.MoviesListFromDBLoadState
 import java.lang.Exception
 

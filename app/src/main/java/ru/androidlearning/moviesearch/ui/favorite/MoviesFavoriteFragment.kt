@@ -12,7 +12,7 @@ import ru.androidlearning.moviesearch.databinding.MoviesFavoriteFragmentBinding
 import ru.androidlearning.moviesearch.model.Movie
 import ru.androidlearning.moviesearch.model.db.MovieEntity
 import ru.androidlearning.moviesearch.ui.MainActivity
-import ru.androidlearning.moviesearch.ui.details.MovieDetailFragment
+import ru.androidlearning.moviesearch.ui.movie_details.MovieDetailFragment
 import ru.androidlearning.moviesearch.ui.history.ERROR_LOADING_MOVIES_HISTORY_MESSAGE
 import ru.androidlearning.moviesearch.ui.history.MoviesListFromDBFragmentAdapter
 import ru.androidlearning.moviesearch.ui.history.MoviesListFromDBLoadState

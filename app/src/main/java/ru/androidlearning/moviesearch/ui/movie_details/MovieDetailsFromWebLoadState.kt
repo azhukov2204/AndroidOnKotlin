@@ -1,4 +1,4 @@
-package ru.androidlearning.moviesearch.ui.details
+package ru.androidlearning.moviesearch.ui.movie_details
 
 import ru.androidlearning.moviesearch.model.web.MovieDetailsDTO
 

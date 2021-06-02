@@ -76,7 +76,7 @@ class MoviesListFromDBFragmentAdapter : RecyclerView.Adapter<MoviesListFromDBFra
                 val movieRatingView = findViewById<TextView>(R.id.movie_rating)
                 movieRatingView.text = movieEntity.rating.toString()
                 Picasso.get().load("$POSTERS_BASE_URL${movieEntity.posterUri}")
-                    .into(findViewById<AppCompatImageView>(R.id.movePoster))
+                    .into(findViewById<AppCompatImageView>(R.id.actorPhoto))
                 val forAdultTextView = findViewById<TextView>(R.id.for_adult)
                 if (movieEntity.isAdult == true) {
                     forAdultTextView.visibility = View.VISIBLE

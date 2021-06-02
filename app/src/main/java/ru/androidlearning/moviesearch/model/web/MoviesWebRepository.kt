@@ -18,6 +18,8 @@ interface MoviesWebRepository {
         language: String
     )
 
+    fun getActorDetailsFromServer(callback: Callback<ActorDetailsDTO>, actorId: Int, language: String)
+
     fun searchMovies(
         moviesSearchLiveData: MutableLiveData<MoviesListsFromWebLoadState>,
         query: String,

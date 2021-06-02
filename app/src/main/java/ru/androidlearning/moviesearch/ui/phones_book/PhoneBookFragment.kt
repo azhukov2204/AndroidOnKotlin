@@ -176,7 +176,6 @@ class PhoneBookFragment : Fragment() {
                             )
                             phonesCursor?.let {
                                 while (phonesCursor.moveToNext()) {
-                                    //println("$phonesCursor - $j")
                                     val phoneNumber = phonesCursor.getString(phonesCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                                     val contactName = phonesCursor.getString(phonesCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
                                     phoneBook.add(PhoneBookEntity(contactName, phoneNumber))

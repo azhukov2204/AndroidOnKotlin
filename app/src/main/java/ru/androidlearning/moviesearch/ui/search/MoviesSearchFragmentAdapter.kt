@@ -51,7 +51,7 @@ class MoviesSearchFragmentAdapter :
             val movieRatingView = findViewById<TextView>(R.id.movie_rating)
             movieRatingView.text = movie.rating.toString()
             Picasso.get().load("$POSTERS_BASE_URL${movie.posterUri}")
-                .into(findViewById<AppCompatImageView>(R.id.movePoster))
+                .into(findViewById<AppCompatImageView>(R.id.actorPhoto))
             val forAdultTextView = findViewById<TextView>(R.id.for_adult)
             if (movie.isAdult == true) {
                 forAdultTextView.visibility = View.VISIBLE

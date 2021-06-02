@@ -1,7 +1,7 @@
 package ru.androidlearning.moviesearch.model.db
 
 import androidx.lifecycle.MutableLiveData
-import ru.androidlearning.moviesearch.ui.details.MovieDetailsAdditionalDataFromDBLoadState
+import ru.androidlearning.moviesearch.ui.movie_details.MovieDetailsAdditionalDataFromDBLoadState
 import ru.androidlearning.moviesearch.ui.history.MoviesListFromDBLoadState
 
 interface MoviesDBRepository {
