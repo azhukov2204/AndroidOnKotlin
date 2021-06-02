@@ -80,6 +80,7 @@ class MapsFragment : Fragment() {
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation))
+        addMovieTheatersOnMap()
         checkStringAddressAndShowPlace(address, markerTitle)
         checkPermissionToFineLocation()
     }
@@ -100,7 +101,6 @@ class MapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         arguments?.let {
             address = it.getString(ADDRESS_BUNDLE_KEY, null)
             markerTitle = it.getString(MARKER_TITLE_BUNDLE_KEY, null)
@@ -218,4 +218,11 @@ class MapsFragment : Fragment() {
     private fun setMarker(location: LatLng, title: String): Marker? {
         return map.addMarker(MarkerOptions().position(location).title(title))
     }
+
+    private fun addMovieTheatersOnMap() {
+        for (movieTheaterCoordinates in MovieTheaterCoordinates.getMovieTheaters()) {
+            map.addMarker(MarkerOptions().position(LatLng(movieTheaterCoordinates.lat, movieTheaterCoordinates.lng)).title(movieTheaterCoordinates.name))
+        }
+    }
+
 }

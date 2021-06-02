@@ -32,7 +32,6 @@ class MoviesListFromDBFragmentAdapter : RecyclerView.Adapter<MoviesListFromDBFra
 
     fun applyFilter(query: String?) {
         filteredMovieEntitiesList = if (!query.isNullOrBlank()) {
-            println(query)
             movieEntitiesList.filter {
                 (it.title?.lowercase()?.contains(query.lowercase()) == true) ||
                         (it.genre?.lowercase()?.contains(query.lowercase()) == true) ||
