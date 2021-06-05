@@ -52,4 +52,6 @@
     <string name="day_of_birth_title">Day of birth:</string>
     <string name="date_and_place_of_birth_formatted">%s %s</string>
     <string name="show_birth_place_on_the_map_text">Show birth place on the Map</string>
+    <string name="ok_button_text">OK</string>
+    <string name="near_movie_theater_text">You near movie theater</string>
 </resources>
