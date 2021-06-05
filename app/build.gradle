@@ -19,10 +19,24 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            Properties keyProps = new Properties()
+            keyProps.load(new FileInputStream(project.rootProject.file("passwords.properties")))
+            storeFile file("AndroidLearningKeyStore.jks")
+            keyAlias 'MovieSearchKey'
+            storePassword keyProps["STORE_PASSWORD"]
+            keyPassword keyProps["KEY_PASSWORD"]
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            versionNameSuffix "-debug"
         }
     }
     buildTypes.each {
@@ -40,6 +54,17 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    flavorDimensions 'version'
+    productFlavors {
+        full {
+            dimension 'version'
+            versionNameSuffix '.full'
+        }
+        standart {
+            dimension 'version'
+            versionNameSuffix '.standart'
+        }
     }
 }
 
